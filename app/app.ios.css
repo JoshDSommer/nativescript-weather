@@ -1,0 +1,27 @@
+﻿.wi {
+  font-family: 'Weather Icons', weathericons-regular-webfont;
+    font-size:95;
+}
+.time{
+	color:#fff;
+	opacity:0.4;
+	font-weight:bold;
+	font-size:20;
+	horizontal-align:left;
+	text-transform:uppercase;
+}
+.degrees{
+	font-size:40;
+	font-weight:normal;
+
+}
+.summary{
+	font-size:25;
+
+}
+.info-text{
+	color:#fff;
+	horizontal-align:left;
+	font-weight:bold;
+
+}
