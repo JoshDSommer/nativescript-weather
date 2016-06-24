@@ -11,6 +11,7 @@ export interface IDimensions {
 	dayOffset: number;
 	eveningOffset: number;
 	nightOffset: number;
+	maxYScroll: number;
 }
 
 @Injectable()
@@ -20,9 +21,9 @@ export class PageDimensions {
 
 	//right now this is probably overkill
 	getDimensions(): Rx.Observable<IDimensions> {
-		const portraitHeight = SwissArmyKnife.getScreenHeight().portrait;
-		const cardRowSize = portraitHeight / 6;
-		const cardSize = cardRowSize * 4;
+		const portraitHeight = SwissArmyKnife.getScreenHeight().portrait - 80;
+		const cardRowSize = portraitHeight / 5;
+		const cardSize = cardRowSize * 4 - 16;
 
 		console.log(`row :${cardRowSize}`);
 
@@ -30,10 +31,11 @@ export class PageDimensions {
 			cardRowSize: cardRowSize,
 			cardSize: cardSize,
 			pageHeight: portraitHeight,
-			morningOffset: -cardRowSize,
-			dayOffset: 0,
-			eveningOffset: cardRowSize,
-			nightOffset: cardRowSize * 2,
+			morningOffset: 0,
+			dayOffset: cardRowSize,
+			eveningOffset: cardRowSize * 2,
+			nightOffset: cardRowSize * 3,
+			maxYScroll: cardRowSize * 2
 		});
 	}
 }

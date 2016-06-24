@@ -1,0 +1,38 @@
+Page{
+    background-color:#8ba892;
+}
+
+#container-wrapper{
+	background-color:#8ba892;
+}
+
+.nav-bar{
+	color:#fff;
+}
+
+.morning{
+	background-color: #e3bb88;
+}
+	.morning-icon{
+		color: #d89864;
+	}
+
+.day{
+	background-color: #d89864
+}
+	.day-icon{
+		color: #644749;
+	}
+.evening{
+	background-color: #b1695a;
+}
+	.evening-icon{
+		color: #e3bb88;
+	}
+
+.night{
+	background-color: #644749;
+}
+	.night-icon{
+		color:#d89864;
+	}
