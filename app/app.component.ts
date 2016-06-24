@@ -1,6 +1,6 @@
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import {NgIf } from '@angular/common';
-import {RouteConfig} from "@angular/router-deprecated";
+import {RouterConfig} from "@angular/router";
 import {ForecastComponent} from './components/forecast/forecast.component';
 import {LocationsComponent} from './components/locations/locations.component';
 import {topmost} from 'ui/frame';
@@ -9,7 +9,7 @@ import {Page} from 'ui/page';
 import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
 import {IForecastCardInfo, ForecastIOService, IForecast } from './services/forecast.io.services';
 import {ILocationInfo, LocationService} from './services/location.service';
-import {NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS} from 'nativescript-angular/router';
+import {NS_ROUTER_DIRECTIVES, nsProvideRouter} from 'nativescript-angular/router';
 
 declare const android: any;
 
@@ -27,14 +27,10 @@ declare const android: any;
 		`
 	],
 	directives: [ForecastComponent, LocationsComponent, NgIf, NS_ROUTER_DIRECTIVES],
-	providers: [ForecastIOService, LocationService, NS_ROUTER_PROVIDERS],
+	providers: [ForecastIOService, LocationService],
 	pipes: [TNSFontIconPipe],
 	encapsulation: ViewEncapsulation.Emulated
 })
-@RouteConfig([
-	{ path: "/Location", component: LocationsComponent, name: "Location" },
-	{ path: "/Forecast", component: ForecastComponent, name: "Forecast", useAsDefault: true }
-])
 export class WeatherAppComponent {
 	public cityTemp: string;
 	public forecast: boolean;
@@ -71,3 +67,12 @@ export class WeatherAppComponent {
 		// this.stackLayout.nativeElement.style.paddingTop = SwissArmyKnife.getScreenHeight().androidStatusBar / 2;
 	}
 }
+
+var routes: RouterConfig = [
+	{ path: "", component: ForecastComponent },
+	{ path: "location", component: LocationsComponent }
+];
+
+export var APP_ROUTES = [
+	nsProvideRouter(routes, { enableTracing: false })
+]
