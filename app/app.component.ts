@@ -1,4 +1,4 @@
-import {BaseComponent, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
+import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import {NgIf } from '@angular/common';
 import {RouteConfig} from "@angular/router-deprecated";
 import {ForecastComponent} from './components/forecast/forecast.component';
@@ -14,7 +14,7 @@ import {NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS} from 'nativescript-angular/ro
 declare const android: any;
 
 
-@BaseComponent({
+@Component({
 	selector: 'weather-app',
 	template: `
 		<page-router-outlet></page-router-outlet>

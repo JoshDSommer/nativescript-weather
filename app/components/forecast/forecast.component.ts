@@ -1,4 +1,4 @@
-import {BaseComponent, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
+import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import * as app from 'application';
 import * as Platform from 'platform';
 import {Router} from '@angular/router-deprecated';
@@ -18,7 +18,7 @@ declare const android: any;
 
 
 
-@BaseComponent({
+@Component({
 	selector: 'forecast-component',
 	template: `
 		<GridLayout row="*" columns="auto,auto,auto" class="nav-bar" width="100%" verticalAlignment="top" orientation="horizontal">

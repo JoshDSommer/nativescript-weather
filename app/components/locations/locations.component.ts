@@ -1,4 +1,4 @@
-import {BaseComponent, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SwissArmyKnife, IScreenHeight} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 import {ILocationInfo, LocationService } from '../../services/location.service';
 import { ActivityIndicator } from 'ui/activity-indicator';
@@ -10,7 +10,7 @@ import {Router} from '@angular/router-deprecated';
 import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
 
-@BaseComponent({
+@Component({
 	selector: 'locations-component',
 	template: `
 		<StackLayout #locationCard class="evening">

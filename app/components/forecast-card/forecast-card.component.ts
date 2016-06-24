@@ -1,4 +1,4 @@
-import { BaseComponent, ViewEncapsulation, OnInit, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
 import {IForecastCardInfo} from '../../services/forecast.io.services';
@@ -22,7 +22,7 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 }
 
 
-@BaseComponent({
+@Component({
 	selector: 'forecast-card',
 	template: `
 		<AbsoluteLayout [class]="forecast?.timeOfDay" (touch)="cardTapEvent($event)" #card class="card" [width]="width" borderRadius="0" [height]="height * 4" [left]="left" [top]="top"  >
