@@ -2,12 +2,17 @@
 import {nativeScriptBootstrap } from "nativescript-angular/application";
 import {provide} from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
-import {WeatherAppComponent} from './app.component';
+import {WeatherAppComponent, APP_ROUTES} from './app.component';
 // import {APP_ROUTER_PROVIDERS} from './app.routes';
 
 import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
 
-nativeScriptBootstrap(WeatherAppComponent, [HTTP_PROVIDERS,
+///// HACK - fix dom adapter
+import {Parse5DomAdapter} from '@angular/platform-server/src/parse5_adapter';
+(<any>Parse5DomAdapter).prototype.getCookie = function (name) { return null; };
+///// HACK - fix dom adapter
+
+nativeScriptBootstrap(WeatherAppComponent, [HTTP_PROVIDERS, APP_ROUTES,
 	provide(TNSFontIconService, {
 		useFactory: () => {
 			return new TNSFontIconService({

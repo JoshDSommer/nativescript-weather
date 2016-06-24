@@ -1,7 +1,7 @@
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import * as app from 'application';
 import * as Platform from 'platform';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
 import {ForecastCardComponent, } from '../forecast-card/forecast-card.component';
 import {PageDimensions, IDimensions} from '../../services/page-dimensions.service';
@@ -21,17 +21,20 @@ declare const android: any;
 @Component({
 	selector: 'forecast-component',
 	template: `
-		<GridLayout row="*" columns="auto,auto,auto" class="nav-bar" width="100%" verticalAlignment="top" orientation="horizontal">
-			<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="20" row="0" col="0" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
-			<Label verticalAlignment="bottom" width="70%" row="0" col="1" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-			<Label verticalAlignment="bottom" width="20" row="0" col="2" horizontalAlign="right" class="fa" [text]="'fa-refresh' | fonticon" ></Label>
-		</GridLayout>
+	<GridLayout>
 		<AbsoluteLayout id="slider-container">
 			<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
 			<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
 			<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
 			<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 		</AbsoluteLayout>
+
+		<GridLayout row="*" columns="auto,auto,auto" class="nav-bar" width="100%" verticalAlignment="top" orientation="horizontal">
+			<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="20" row="0" col="0" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
+			<Label verticalAlignment="bottom" width="70%" row="0" col="1" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
+			<Label verticalAlignment="bottom" width="20" row="0" col="2" horizontalAlign="right" class="fa" [text]="'fa-refresh' | fonticon" ></Label>
+		</GridLayout>
+	</GridLayout>
 `,
 	directives: [ForecastCardComponent],
 	providers: [PageDimensions, PositioningService],
@@ -130,7 +133,7 @@ export class ForecastComponent implements AfterViewInit {
 
 	gotoLocations(e: gestures.TouchGestureEventData): void {
 		if (e.action === 'up') {
-			this.router.navigate(['Location']);
+			this.router.navigate(['/location']);
 		}
 	}
 

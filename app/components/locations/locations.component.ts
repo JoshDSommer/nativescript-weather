@@ -6,9 +6,10 @@ import {StackLayout} from 'ui/layouts/stack-layout';
 import {AnimationCurve, Orientation} from 'ui/enums';
 import {Label} from 'ui/label';
 import * as gestures from 'ui/gestures';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
+import {View} from "ui/core/view";
 
 @Component({
 	selector: 'locations-component',
@@ -116,7 +117,7 @@ export class LocationsComponent {
 		if (e.action === 'up') {
 			console.log('lookup clicked');
 			this.locationService.saveLocation(this.location);
-			this.router.navigate(['Forecast']);
+			this.router.navigate(['']);
 		}
 	}
 
@@ -147,10 +148,14 @@ export class LocationsComponent {
 		}
 
 		this.locationCard.nativeElement.translateY = this.pageDimensions.portrait;
-		this.locationCard.nativeElement.animate({
-			duration: 2000,
-			translate: { x: 0, y: 0 },
-			curve: AnimationCurve.easeOut
-		});
+		
+		// this setTimeout should not be needed ?!?
+		setTimeout(() => {
+			this.locationCard.nativeElement.animate({
+						duration: 2000,
+						translate: { x: 0, y: 0 },
+						curve: AnimationCurve.easeOut
+					});
+		}, 0);
 	}
 }
