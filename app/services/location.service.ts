@@ -73,9 +73,6 @@ export class LocationService {
 			return (<any[]>value.types).indexOf('administrative_area_level_1') > -1;
 		})[0];
 
-		console.log(('state found : ' + state));
-
-
 		return state;
 		// return (<any[]>result.address_components).map((value: any, index: number) => {
 		// 	if ((<any[]>value.types).indexOf('locality') >= 0) {

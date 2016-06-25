@@ -179,7 +179,7 @@ export class LocationsComponent {
 		// this setTimeout should not be needed ?!?
 		setTimeout(() => {
 			this.locationCard.nativeElement.animate({
-				duration: 1000,
+				duration: 1500,
 				translate: { x: 0, y: 0 },
 				curve: AnimationCurve.easeOut
 			});

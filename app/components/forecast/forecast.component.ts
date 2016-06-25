@@ -26,7 +26,7 @@ declare const android: any;
 		<!---->
 		<ActionBar title="" class="action-bar">
 			<StackLayout orientation="horizontal">
-				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="40" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
+				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="40" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
 				<Label verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="20" class="fa" [text]="'fa-refresh' | fonticon" ></Label>
 			</StackLayout>
@@ -105,16 +105,9 @@ export class ForecastComponent implements AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		// let dayCard = this.day.nativeElement;
-		if (app.android) {
-			//	SwissArmyKnife.actionBarSetStatusBarStyle(1);
-		}
-
-
-
-		console.log(this.positioning.night);
 		setTimeout(() => {
 			(<any>this.morning).selectCard();
+			console.log('initial load');
 		}, 100);
 	}
 }

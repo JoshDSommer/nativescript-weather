@@ -27,10 +27,10 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 	template: `
 		<AbsoluteLayout [class]="forecast?.timeOfDay" (touch)="cardTapEvent($event)" #card class="card" [width]="width" borderRadius="0" [height]="height * 4" [left]="left" [top]="top"  >
 			<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
-			<StackLayout top="20" left="200" >
+			<StackLayout top="20" left="200" [height]="height * 2" >
 				<Label class="time" [text]="forecast?.day"></Label>
 				<Label [text]="forecast?.temperature + '\u00B0'" class="info-text degrees" textWrap="true"></Label>
-				<StackLayout #forecastInfo [width]="width" class="forecast">
+				<StackLayout #forecastInfo [width]="width" [height]="height * 2" class="forecast">
 					<Label [text]="forecast?.summary" class="info-text summary" width="54%" textWrap="true"></Label>
 					<Label [text]="'Wind: ' + forecast?.windBearing + ' ' + forecast?.windSpeed + ' mph'" class="info-text wind" textWrap="true"></Label>
 					<Label [text]="'Humidity: ' + forecast?.humidity + '%'" class="info-text humidity" textWrap="true"></Label>
@@ -69,14 +69,12 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 
 	ngAfterViewInit() {
 		let icon = <Label>this.forecastIcon.nativeElement;
-		let forecast = <StackLayout>this.forecastInfo.nativeElement;
-		let card = <StackLayout>this.card.nativeElement;
 		icon.translateY = this.downDistance;
 		if (this.forecast != null) {
 			this.positioning[this.forecast.timeOfDay.toLowerCase()] = {
 				card: this.card.nativeElement,
 				cardName: cardNames[this.forecast.timeOfDay.toLowerCase()],
-				hideCard: this.hideForecast.bind(this),
+				hideForecast: this.hideForecast.bind(this),
 				slideforecastIconDownAway: this.slideforecastIconDownAway.bind(this),
 				slideforecastIconDownIn: this.slideforecastIconDownIn.bind(this),
 				slideforecastIconUpAway: this.slideforecastIconUpAway.bind(this),
@@ -89,13 +87,7 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	setSelected(value: boolean) {
-		let forecast = <StackLayout>this.forecastInfo.nativeElement;
 		this.selected = value;
-		if (this.selected === false) {
-			setTimeout(() => {
-				forecast.translateY = this.downDistance;
-			}, 0);
-		}
 	}
 
 	selectCard(): void {
@@ -105,7 +97,7 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 			{
 				card: this.card.nativeElement,
 				cardName: cardNames[this.forecast.timeOfDay.toLowerCase()],
-				hideCard: this.hideForecast,
+				hideForecast: this.hideForecast,
 				slideforecastIconDownAway: this.slideforecastIconDownAway.bind(this),
 				slideforecastIconDownIn: this.slideforecastIconDownIn.bind(this),
 				slideforecastIconUpAway: this.slideforecastIconUpAway.bind(this),
@@ -155,13 +147,15 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 
 	public showForecast() {
 		let forecast = <StackLayout>this.forecastInfo.nativeElement;
-		let icon = <Label>this.forecastIcon.nativeElement;
+		let previousCard = this.positioning.previousCard;
 		forecast.animate({
 			translate: { x: 0, y: 0 },
 			duration: 300,
 			curve: AnimationCurve.easeIn,
-			delay: 200,
+			delay: 400,
 		}).then(() => {
+			if(previousCard != null)
+				previousCard.hideForecast();
 			forecast.translateY = 0; //sets the ending position to 0 as to prevent ios from reverting
 		});
 		//icon.visibility = 'visible';
@@ -171,18 +165,13 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 		let forecast = <StackLayout>this.forecastInfo.nativeElement;
 		let icon = <Label>this.forecastIcon.nativeElement;
 
-		if (this.forecast.timeOfDay.toLowerCase() === 'night') {
-			forecast.animate({
-				translate: { x: 0, y: 150 },
-				duration: 300,
-				curve: AnimationCurve.easeIn,
-			});
-		} else {
-			setTimeout(() => {
-				forecast.translateY = this.downDistance;
-			}, 0);
-		}
-		//
+
+		forecast.animate({
+			translate: { x: 0, y: 150 },
+			duration: 400,
+			curve: AnimationCurve.easeIn,
+		});
+
 		//}
 	}
 
