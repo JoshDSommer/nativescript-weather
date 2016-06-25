@@ -67,10 +67,8 @@ export class WeatherAppComponent {
 		SwissArmyKnife.actionBarSetStatusBarStyle(1);
 		if (app.android && Platform.device.sdkVersion >= '19') {
 			let window = app.android.startActivity.getWindow();
-			window.setStatusBarColor(new Color('#63836b').android)
-			//SwissArmyKnife.setAndroidNavBarTranslucentFlag();
-			//SwissArmyKnife.setAndroidStatusBarTranslucentFlag();
-			// this.stackLayout.nativeElement.style.paddingTop = SwissArmyKnife.getScreenHeight().androidStatusBar / 2;
+			window.setStatusBarColor(new Color('#8ba192').android);
+			window.setNavigationBarColor(new Color('#644749').android);
 		}
 	}
 }

@@ -54,16 +54,10 @@
 	font-size: 20;
 }
 
-
-Page{
+Page, .action-bar, #container-wrapper{
     background-color:#8ba892;
 }
-
-#container-wrapper{
-	background-color:#8ba892;
-}
-
-.nav-bar{
+.action-bar, .nav-bar{
 	color:#fff;
 }
 
