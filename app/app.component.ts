@@ -10,6 +10,9 @@ import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
 import {IForecastCardInfo, ForecastIOService, IForecast } from './services/forecast.io.services';
 import {ILocationInfo, LocationService} from './services/location.service';
 import {NS_ROUTER_DIRECTIVES, nsProvideRouter} from 'nativescript-angular/router';
+import * as app from 'application';
+import {Color} from 'color';
+import * as Platform from 'platform';
 
 declare const android: any;
 
@@ -61,10 +64,14 @@ export class WeatherAppComponent {
 		return result;
 	}
 	ngAfterViewInit(): void {
-		// SwissArmyKnife.actionBarSetStatusBarStyle(1);
-		// SwissArmyKnife.setAndroidNavBarTranslucentFlag();
-		// SwissArmyKnife.setAndroidStatusBarTranslucentFlag();
-		// this.stackLayout.nativeElement.style.paddingTop = SwissArmyKnife.getScreenHeight().androidStatusBar / 2;
+		SwissArmyKnife.actionBarSetStatusBarStyle(1);
+		if (app.android && Platform.device.sdkVersion >= '19') {
+			let window = app.android.startActivity.getWindow();
+			window.setStatusBarColor(new Color('#63836b').android)
+			//SwissArmyKnife.setAndroidNavBarTranslucentFlag();
+			//SwissArmyKnife.setAndroidStatusBarTranslucentFlag();
+			// this.stackLayout.nativeElement.style.paddingTop = SwissArmyKnife.getScreenHeight().androidStatusBar / 2;
+		}
 	}
 }
 

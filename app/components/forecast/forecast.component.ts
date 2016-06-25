@@ -114,7 +114,7 @@ export class ForecastComponent implements AfterViewInit {
 
 		console.log(this.positioning.night);
 		setTimeout(() => {
-			(<any>this.evening).selectCard();
+			(<any>this.morning).selectCard();
 		}, 100);
 	}
 }

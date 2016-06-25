@@ -4,4 +4,3 @@
    <color name="ns_primaryDark">#fff</color>
    <color name="ns_accent">#fff</color>
  </resources>
-  <item name="android:textColorHint">#fff</item>
