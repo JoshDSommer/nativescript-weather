@@ -77,6 +77,22 @@ export class ForecastIOService {
 		let forecast: IForecast = <any>{};
 		let body = res.json();
 		let currentTemp = Math.floor(body.currently.temperature);
+		let windBearing = (windBearing: number): string => {
+			if (windBearing < 45) {
+				return 'N';
+			}
+			if (windBearing < 120) {
+				return 'E';
+			}
+			if (windBearing < 225) {
+				return 'S';
+			}
+			if (windBearing < 315) {
+				return 'W';
+			}
+			return 'N';
+		};
+
 		//console.log(extractForecastCardInfo(daily[0], 'morning',  body.currently.temperature));
 		console.log(currentTemp);
 		console.log('------------------------');
@@ -84,7 +100,7 @@ export class ForecastIOService {
 		forecast.location = 'Canton Ohio';
 
 		let daily = body.daily.data;
-		console.log(daily);
+		console.log(windBearing(daily[3].windBearing))
 
 		forecast.morning = {
 			timeOfDay: 'morning',
@@ -92,8 +108,8 @@ export class ForecastIOService {
 			icon: 'wi-forecast-io-' + daily[0].icon,
 			temperature: Math.floor(daily[0].temperatureMax),
 			temperatureDiff: Math.floor(daily[0].temperatureMax - currentTemp),
-			windSpeed: daily[0].windSpeed,
-			windBearing: daily[0].windBearing,
+			windSpeed: Math.floor(daily[0].windSpeed),
+			windBearing: windBearing(daily[0].windBearing),
 			summary: daily[0].summary,
 			humidity: daily[0].humidity
 		};
@@ -103,8 +119,8 @@ export class ForecastIOService {
 			icon: 'wi-forecast-io-' + daily[1].icon,
 			temperature: Math.floor(daily[1].temperatureMax),
 			temperatureDiff: Math.floor(daily[1].temperatureMax - currentTemp),
-			windSpeed: daily[1].windSpeed,
-			windBearing: daily[1].windBearing,
+			windSpeed: Math.floor(daily[1].windSpeed),
+			windBearing: windBearing(daily[1].windBearing),
 			summary: daily[1].summary,
 			humidity: daily[1].humidity
 		};
@@ -114,8 +130,8 @@ export class ForecastIOService {
 			icon: 'wi-forecast-io-' + daily[2].icon,
 			temperature: Math.floor(daily[2].temperatureMax),
 			temperatureDiff: Math.floor(daily[2].temperatureMax - currentTemp),
-			windSpeed: daily[2].windSpeed,
-			windBearing: daily[2].windBearing,
+			windSpeed: Math.floor(daily[2].windSpeed),
+			windBearing: windBearing(daily[2].windBearing),
 			summary: daily[2].summary,
 			humidity: daily[2].humidity
 		};
@@ -125,8 +141,8 @@ export class ForecastIOService {
 			icon: 'wi-forecast-io-' + daily[3].icon,
 			temperature: Math.floor(daily[3].temperatureMax),
 			temperatureDiff: Math.floor(daily[3].temperatureMax - currentTemp),
-			windSpeed: daily[3].windSpeed,
-			windBearing: daily[3].windBearing,
+			windSpeed: Math.floor(daily[3].windSpeed),
+			windBearing: windBearing(daily[3].windBearing),
 			summary: daily[3].summary,
 			humidity: daily[3].humidity
 		};
