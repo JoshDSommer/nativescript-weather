@@ -20,7 +20,6 @@
 }
 
 .summary{
-	font-size:25;
 }
 
 .forecast{
@@ -30,8 +29,8 @@
 .info-text{
 	color:#fff;
 	horizontal-align:left;
-	font-weight:bold;
-	font-size:18;
+	font-size:16;
+	font-weight: bold;
 }
 
 .wind{
@@ -39,7 +38,7 @@
 }
 
 .degrees{
-	font-size:35;
+	font-size:30;
 	font-weight:normal;
 }
 

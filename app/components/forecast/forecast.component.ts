@@ -13,6 +13,7 @@ import {StackLayout} from 'ui/layouts/stack-layout';
 import {Observable} from 'rxjs/observable';
 import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
+import {Label} from 'ui/label';
 
 declare const android: any;
 
@@ -22,6 +23,14 @@ declare const android: any;
 	selector: 'forecast-component',
 	template: `
 	<GridLayout>
+		<!---->
+		<ActionBar title="" class="action-bar">
+			<StackLayout orientation="horizontal">
+				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="40" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
+				<Label verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
+				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="20" class="fa" [text]="'fa-refresh' | fonticon" ></Label>
+			</StackLayout>
+		</ActionBar>
 		<AbsoluteLayout id="slider-container">
 			<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
 			<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
@@ -29,57 +38,13 @@ declare const android: any;
 			<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 		</AbsoluteLayout>
 
-		<GridLayout row="*" columns="auto,auto,auto" class="nav-bar" width="100%" verticalAlignment="top" orientation="horizontal">
-			<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="20" row="0" col="0" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
-			<Label verticalAlignment="bottom" width="70%" row="0" col="1" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-			<Label verticalAlignment="bottom" width="20" row="0" col="2" horizontalAlign="right" class="fa" [text]="'fa-refresh' | fonticon" ></Label>
-		</GridLayout>
-	</GridLayout>
 `,
 	directives: [ForecastCardComponent],
 	providers: [PageDimensions, PositioningService],
 	pipes: [TNSFontIconPipe],
-	styleUrls: ['theme-natural.css'],
+	styleUrls: ['theme-natural.css', 'app.css'],
 	styles: [`
 
-			Page{
-			background-color:#8ba892;
-		}
-
-		#container-wrapper{
-			background-color:#8ba892;
-		}
-
-		.nav-bar{
-			color:#fff;
-		}
-
-		.morning{
-			background-color: #e3bb88;
-		}
-			.morning-icon{
-				color: #d89864;
-			}
-
-		.day{
-			background-color: #d89864
-		}
-			.day-icon{
-				color: #644749;
-			}
-		.evening{
-			background-color: #b1695a;
-		}
-			.evening-icon{
-				color: #e3bb88;
-			}
-
-		.night{
-			background-color: #644749;
-		}
-			.night-icon{
-				color:#d89864;
-			}
 	`]
 })
 export class ForecastComponent implements AfterViewInit {
@@ -93,7 +58,7 @@ export class ForecastComponent implements AfterViewInit {
 
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
 		let page = <Page>topmost().currentPage;
-		page.actionBarHidden = true;
+		// page.actionBarHidden = true;
 		// themes.applyTheme('theme-natural.css');
 
 		let placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
@@ -112,17 +77,14 @@ export class ForecastComponent implements AfterViewInit {
 		});
 
 		let currentLocation = this.locationService.getStoredLocations();
-		// if (currentLocation == null) {
-		// 	this.router.navigate(['location']);
-		// }
-		currentLocation = <any>{};
-		currentLocation.lat = "40.7989";
-		currentLocation.lng = "-81.3784";
+		if (currentLocation == null) {
+			this.router.navigate(['/location']);
+		}
 		forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
 			console.log('got forecast' + JSON.stringify(value));
 			this.forecast.location = value.location;
 			this.forecast.temperature = value.temperature;
-			this.cityTemp = `Canton Ohio ${this.forecast.temperature}\u00B0`;
+			this.cityTemp = `${currentLocation.name} ${this.forecast.temperature}\u00B0`;
 			this.forecast.day = value.day;
 			this.forecast.evening = value.evening;
 			this.forecast.morning = value.morning;
@@ -133,7 +95,12 @@ export class ForecastComponent implements AfterViewInit {
 
 	gotoLocations(e: gestures.TouchGestureEventData): void {
 		if (e.action === 'up') {
+			console.log('lookup clicked');
+			(<Label>e.object).opacity = 1;
 			this.router.navigate(['/location']);
+
+		} else if (e.action === 'down') {
+			(<Label>e.object).opacity = 0.5;
 		}
 	}
 

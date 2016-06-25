@@ -28,10 +28,10 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 		<AbsoluteLayout [class]="forecast?.timeOfDay" (touch)="cardTapEvent($event)" #card class="card" [width]="width" borderRadius="0" [height]="height * 4" [left]="left" [top]="top"  >
 			<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
 			<StackLayout top="20" left="200" >
-				<Label class="time" [text]="forecast?.timeOfDay"></Label>
-				<Label [text]="forecast?.temperatureDiff + '\u00B0'" class="info-text degrees" textWrap="true"></Label>
-				<StackLayout #forecastInfo class="forecast">
-					<Label [text]="forecast?.summary" class="info-text summary" textWrap="true"></Label>
+				<Label class="time" [text]="forecast?.day"></Label>
+				<Label [text]="forecast?.temperature + '\u00B0'" class="info-text degrees" textWrap="true"></Label>
+				<StackLayout #forecastInfo [width]="width" class="forecast">
+					<Label [text]="forecast?.summary" class="info-text summary" width="54%" textWrap="true"></Label>
 					<Label [text]="'Wind: ' + forecast?.windBearing + ' ' + forecast?.windSpeed + ' mph'" class="info-text wind" textWrap="true"></Label>
 					<Label [text]="'Humidity: ' + forecast?.humidity + '%'" class="info-text humidity" textWrap="true"></Label>
 				</StackLayout>
@@ -89,7 +89,13 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	setSelected(value: boolean) {
+		let forecast = <StackLayout>this.forecastInfo.nativeElement;
 		this.selected = value;
+		if (this.selected === false) {
+			setTimeout(() => {
+				forecast.translateY = this.downDistance;
+			}, 0);
+		}
 	}
 
 	selectCard(): void {

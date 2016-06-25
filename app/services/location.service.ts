@@ -34,11 +34,11 @@ export class LocationService {
 			return null;
 		}
 
-		let locations: ILocationInfo = JSON.parse(locationJSON);
-		if (locations == null) {
+		let location: ILocationInfo = JSON.parse(locationJSON);
+		if (location == null) {
 			return null;
 		}
-		return locations;
+		return location;
 	}
 
 	saveLocation(location: ILocationInfo): void {
@@ -65,20 +65,33 @@ export class LocationService {
 	}
 
 	extractCityName(value: any): string {
-		let result = value.result[0];
-		return (<any[]>result.address_components).map((value: any, index: number) => {
-			if ((<any[]>value.types).indexOf('locality') >= 0) {
-				return value.long_name;
-			}
-		})[0] + ' ' + (<any[]>result.address_components).map((value: any, index: number) => {
-			if ((<any[]>value.types).indexOf('administrative_area_level_1') >= 0) {
-				return value.short_name;
-			}
+		let result = value._body.result[0];
+
+		let address_components: any[] = (<any[]>result.address_components);
+		console.log(JSON.stringify(address_components));
+		let state = address_components.filter((value: any) => {
+			return (<any[]>value.types).indexOf('administrative_area_level_1') > -1;
 		})[0];
+
+		console.log(('state found : ' + state));
+
+
+		return state;
+		// return (<any[]>result.address_components).map((value: any, index: number) => {
+		// 	if ((<any[]>value.types).indexOf('locality') >= 0) {
+		// 		return value.long_name;
+		// 	}
+		// })[0] + ' ' + .map((value: any, index: number) => {
+		// 	if ((<any[]>value.types).indexOf('administrative_area_level_1') >= 0) {
+		// 		return value.short_name;
+		// 	}
+		// })[0];
 	}
 
 	extractData(value: any): ILocationInfo {
 		let result = value._body.results[0];
+		//let cityName = this.extractCityName(value);
+
 		return <ILocationInfo>{
 			name: result.formatted_address.replace(', USA', ''),
 			lat: result.geometry.bounds.northeast.lat,
@@ -87,4 +100,5 @@ export class LocationService {
 			default: false
 		};
 	}
+
 }

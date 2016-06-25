@@ -1,7 +1,9 @@
-Page{
+Page, .action-bar{
     background-color:#8ba892;
 }
-
+.action-bar{
+	color:#fff;
+}
 #container-wrapper{
 	background-color:#8ba892;
 }
