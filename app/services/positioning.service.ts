@@ -15,7 +15,7 @@ export enum cardNames {
 export interface ISelectedCard {
 	card: AbsoluteLayout;
 	cardName: cardNames;
-	hideCard: Function;
+	hideForecast: Function;
 	slideforecastIconDownAway?: Function;
 	slideforecastIconDownIn?: Function;
 	slideforecastIconUpAway?: Function;
@@ -42,20 +42,8 @@ export class PositioningService {
 			this.evening.setSelected(false);
 			this.night.setSelected(false);
 
-			if (layout.cardName !== this.morning.cardName) {
-				this.morning.hideCard();
-			}
-			if (layout.cardName !== this.day.cardName) {
-				this.day.hideCard();
-			}
-			if (layout.cardName !== this.evening.cardName) {
-				this.evening.hideCard();
-			}
-			if (layout.cardName !== this.night.cardName) {
-				this.night.hideCard();
-			}
+			this.hideForecastsExcept(layout.cardName);
 
-			console.log('Selected card changed' + layout.cardName + ' ' + this.night);
 			layout.card.animate({
 				translate: { x: 0, y: 0 },
 				duration: 300,
@@ -67,6 +55,21 @@ export class PositioningService {
 
 			this.previousCard = layout;
 		});
+	}
+
+	public hideForecastsExcept(timeofDay: cardNames) {
+		if (timeofDay !== this.morning.cardName) {
+			this.morning.hideForecast();
+		}
+		if (timeofDay !== this.day.cardName) {
+			this.day.hideForecast();
+		}
+		if (timeofDay !== this.evening.cardName) {
+			this.evening.hideForecast();
+		}
+		if (timeofDay !== this.night.cardName) {
+			this.night.hideForecast();
+		}
 	}
 
 	private handleCardForecastPosistion(layout: ISelectedCard) {
