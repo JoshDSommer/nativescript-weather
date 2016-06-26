@@ -12,6 +12,7 @@ import {Parse5DomAdapter} from '@angular/platform-server/src/parse5_adapter';
 (<any>Parse5DomAdapter).prototype.getCookie = function (name) { return null; };
 ///// HACK - fix dom adapter
 
+
 nativeScriptBootstrap(WeatherAppComponent, [HTTP_PROVIDERS, APP_ROUTES,
 	provide(TNSFontIconService, {
 		useFactory: () => {

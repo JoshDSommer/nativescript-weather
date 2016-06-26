@@ -11,8 +11,10 @@ import {Router} from '@angular/router';
 import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
 import {View} from 'ui/core/view';
-import {Color} from 'color';
 import {TextField} from 'ui/text-field';
+import * as app from 'application';
+import {Color} from 'color';
+import * as Platform from 'platform';
 
 @Component({
 	selector: 'locations-component',
@@ -98,7 +100,6 @@ export class LocationsComponent {
 		this.topOffset = this.height;
 		console.log(this.height);
 		// this.locations = this.locationService.getStoredLocations();
-
 	}
 
 	lookUpPostalCode(e: gestures.TouchGestureEventData) {
