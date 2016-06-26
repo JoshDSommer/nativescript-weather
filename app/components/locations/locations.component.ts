@@ -109,6 +109,7 @@ export class LocationsComponent {
 			(<Label>e.object).opacity = 1;
 
 			let postalCode: string = this.postalCodeTxt.nativeElement.text;
+			this.postalCodeTxt.nativeElement.dismissSoftInput();
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
 				this.displayLocation(value);
 				(<Label>this.saveButton.nativeElement).animate(

@@ -105,7 +105,7 @@ export class ForecastIOService {
 			windSpeed: Math.floor(daily[0].windSpeed),
 			windBearing: windBearing(daily[0].windBearing),
 			summary: daily[0].summary,
-			humidity: daily[0].humidity
+			humidity: Math.floor(daily[0].humidity * 100)
 		};
 		forecast.day = {
 			timeOfDay: 'day',
@@ -116,7 +116,7 @@ export class ForecastIOService {
 			windSpeed: Math.floor(daily[1].windSpeed),
 			windBearing: windBearing(daily[1].windBearing),
 			summary: daily[1].summary,
-			humidity: daily[1].humidity
+			humidity: Math.floor(daily[1].humidity * 100)
 		};
 		forecast.evening = {
 			timeOfDay: 'evening',
@@ -127,7 +127,7 @@ export class ForecastIOService {
 			windSpeed: Math.floor(daily[2].windSpeed),
 			windBearing: windBearing(daily[2].windBearing),
 			summary: daily[2].summary,
-			humidity: daily[2].humidity
+			humidity: Math.floor(daily[2].humidity * 100)
 		};
 		forecast.night = {
 			timeOfDay: 'night',
@@ -138,7 +138,7 @@ export class ForecastIOService {
 			windSpeed: Math.floor(daily[3].windSpeed),
 			windBearing: windBearing(daily[3].windBearing),
 			summary: daily[3].summary,
-			humidity: daily[3].humidity
+			humidity: Math.floor(daily[3].humidity * 100)
 		};
 
 		// forecast.morning = {
