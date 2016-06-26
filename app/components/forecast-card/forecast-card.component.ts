@@ -31,7 +31,7 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 				<Label class="time" [text]="forecast?.day"></Label>
 				<Label [text]="forecast?.temperature + '\u00B0'" class="info-text degrees" textWrap="true"></Label>
 				<StackLayout #forecastInfo [width]="width" [height]="height * 2" class="forecast">
-					<Label [text]="forecast?.summary" class="info-text summary" width="54%" textWrap="true"></Label>
+					<Label [text]="forecast?.summary" class="info-text summary" width="50%" textWrap="true"></Label>
 					<Label [text]="'Wind: ' + forecast?.windBearing + ' ' + forecast?.windSpeed + ' mph'" class="info-text wind" textWrap="true"></Label>
 					<Label [text]="'Humidity: ' + forecast?.humidity + '%'" class="info-text humidity" textWrap="true"></Label>
 				</StackLayout>
