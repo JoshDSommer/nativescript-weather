@@ -53,7 +53,7 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	public width: number;
 	private rippling: boolean;
 	private forecastContainer: StackLayout;
-	private selected: boolean;
+	public selected: boolean;
 	private upDistance: number;
 	private downDistance: number;
 
@@ -62,6 +62,7 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 		this.rippling = false;
 		this.downDistance = 250;
 		this.upDistance = -250;
+		this.selected = false;
 	}
 
 	ngOnInit() {
@@ -184,7 +185,6 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 			curve: AnimationCurve.linear,
 			duration: 400
 		}).then(() => {
-			console.log('finished position');
 			return icon.translateY = this.downDistance;
 		}).catch(() => {
 			return icon.translateY = 0;

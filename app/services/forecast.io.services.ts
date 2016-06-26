@@ -58,14 +58,12 @@ export class ForecastIOService {
 	private requestURl: string;
 	constructor(private http: Http) {
 		this.requestURl = `https://api.forecast.io/forecast/7d4358a03f4e8309fcc754a0e1cc3613/[lat],[lng]`; // ,${this.currentDate.getFullYear()}-0${this.currentDate.getMonth() + 1}-${this.currentDate.getDate()}T00:00:01`;
-		console.log(this.requestURl);
 	}
 
 	getForecast(lat: string, lng: string): Observable<IForecast> {
 		//	let data = applicationSettings.getString(`${this.currentDate.getFullYear()}-0${this.currentDate.getMonth() + 1}-${this.currentDate.getDate()}`);
 		//	if (data == null) {
 		let forecastURL = this.requestURl.replace('[lat]', lat).replace('[lng]', lng);
-		console.log(forecastURL);
 		return this.http.get(forecastURL).map(this.extractData);
 		//	}
 	}
@@ -93,14 +91,10 @@ export class ForecastIOService {
 			return 'N';
 		};
 
-		//console.log(extractForecastCardInfo(daily[0], 'morning',  body.currently.temperature));
-		console.log(currentTemp);
-		console.log('------------------------');
 		forecast.temperature = Math.floor(body.currently.temperature);
 		forecast.location = 'Canton Ohio';
 
 		let daily = body.daily.data;
-		console.log(windBearing(daily[3].windBearing))
 
 		forecast.morning = {
 			timeOfDay: 'morning',
@@ -197,7 +191,6 @@ export class ForecastIOService {
 
 	extractForecastCardInfo(data: any, timeofDay: string, currentTemp: number): IForecastCardInfo {
 		let forecastInfo: IForecastCardInfo;
-		console.log(JSON.stringify(data));
 		forecastInfo = {
 			timeOfDay: timeofDay,
 			day: '',

@@ -27,9 +27,9 @@ declare const android: any;
 		<!---->
 		<ActionBar title="" class="action-bar">
 			<StackLayout orientation="horizontal">
-				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="40" class="fa" [text]="'fa-map-marker' | fonticon" ></Label>
-				<Label verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="20" class="fa" [text]="'fa-refresh' | fonticon" ></Label>
+				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="40" class="fa" text="\uf041" ></Label>
+				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
+				<Label (touch)="refresh($event)" verticalAlignment="bottom" width="50" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
 		<AbsoluteLayout id="slider-container">
@@ -56,6 +56,7 @@ export class ForecastComponent implements AfterViewInit {
 	public forecast: IForecast;
 	public cityTemp: string;
 	public dimensions: IDimensions;
+	public forecastDate: number;
 
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
 		let page = <Page>topmost().currentPage;
@@ -83,26 +84,45 @@ export class ForecastComponent implements AfterViewInit {
 			this.positioning.movementDistance = data.cardRowSize;
 		});
 
+		this.refreshForecast();
+
+
+	}
+
+	refreshForecast(): void {
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
 			this.router.navigate(['/location']);
 		}
-		forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
-			console.log('got forecast' + JSON.stringify(value));
+		this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+			setTimeout(() => {
+				if ((<any>this.morning).selected === false) {
+					(<any>this.morning).selectCard();
+				}
+			}, 100);
 			this.forecast.location = value.location;
 			this.forecast.temperature = value.temperature;
-			this.cityTemp = `${currentLocation.name} ${this.forecast.temperature}\u00B0`;
+			this.cityTemp = `${currentLocation.name} - ${this.forecast.temperature}\u00B0`;
 			this.forecast.day = value.day;
 			this.forecast.evening = value.evening;
 			this.forecast.morning = value.morning;
 			this.forecast.night = value.night;
-			ref.detectChanges();
+			this.ref.detectChanges();
 		});
+	}
+
+	refresh(e: gestures.TouchGestureEventData): void {
+		if (e.action === 'up') {
+			(<Label>e.object).opacity = 1;
+			this.refreshForecast();
+
+		} else if (e.action === 'down') {
+			(<Label>e.object).opacity = 0.5;
+		}
 	}
 
 	gotoLocations(e: gestures.TouchGestureEventData): void {
 		if (e.action === 'up') {
-			console.log('lookup clicked');
 			(<Label>e.object).opacity = 1;
 			this.router.navigate(['/location']);
 
@@ -112,9 +132,6 @@ export class ForecastComponent implements AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		setTimeout(() => {
-			(<any>this.morning).selectCard();
-			console.log('initial load');
-		}, 100);
+
 	}
 }

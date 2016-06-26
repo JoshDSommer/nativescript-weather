@@ -29,7 +29,7 @@ import * as Platform from 'platform';
 			<Label text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
 
 			<Label #result text="" class="result" textWrap="true"></Label>
-			<Label #saveButton text="Save this location?" class="morning lookupButton" (touch)="saveLocation($event)" textWrap="true"></Label>
+			<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
 
 		</StackLayout>
 		`,
@@ -57,7 +57,6 @@ import * as Platform from 'platform';
 			border-radius:15;
 			margin:5 20%;
 			width:60%;
-			height:45;
 			text-align:center;
 			color:#fff;
 			opacity:0.8;
@@ -76,6 +75,11 @@ import * as Platform from 'platform';
 		.postal-code{
 			margin:10 0;
 			color:#fff;
+			text-align:center;
+			font-size:20;
+		}
+		.save-button{
+			height:45;
 		}
 	`],
 })
@@ -98,18 +102,14 @@ export class LocationsComponent {
 		this.leftOffset = SwissArmyKnife.getScreenHeight().landscape / 2;
 		this.height = (this.pageDimensions.portrait - this.pageDimensions.androidStatusBar - this.pageDimensions.androidNavBar) / 1.75;
 		this.topOffset = this.height;
-		console.log(this.height);
-		// this.locations = this.locationService.getStoredLocations();
 	}
 
 	lookUpPostalCode(e: gestures.TouchGestureEventData) {
 		if (e.action === 'up') {
-			console.log('lookup clicked');
 			(<Label>e.object).opacity = 1;
 
 			let postalCode: string = this.postalCodeTxt.nativeElement.text;
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
-				console.log(JSON.stringify(value));
 				this.displayLocation(value);
 				(<Label>this.saveButton.nativeElement).animate(
 					{
@@ -126,7 +126,6 @@ export class LocationsComponent {
 
 	saveLocation(e: gestures.TouchGestureEventData) {
 		if (e.action === 'up') {
-			console.log('lookup clicked');
 			(<Label>e.object).opacity = 1;
 			this.locationService.saveLocation(this.location);
 			this.router.navigate(['']);
@@ -151,16 +150,13 @@ export class LocationsComponent {
 	ngOnInit() {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
-		console.log('init ' + JSON.stringify(page));
 
 	}
 
 
 	ngAfterViewInit() {
 
-		console.log('lookup loaded');
 		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
-		this.saveButton.nativeElement.opacity = 0;
 		this.resultTxt.nativeElement.opacity = 0;
 
 		let white = new Color('#fff');
@@ -179,6 +175,7 @@ export class LocationsComponent {
 
 		// this setTimeout should not be needed ?!?
 		setTimeout(() => {
+			this.saveButton.nativeElement.opacity = 0;
 			this.locationCard.nativeElement.animate({
 				duration: 1500,
 				translate: { x: 0, y: 0 },

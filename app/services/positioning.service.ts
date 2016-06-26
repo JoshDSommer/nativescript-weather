@@ -179,7 +179,6 @@ export class PositioningService {
 			}
 
 		} else {
-			console.log('init load');
 			currentcard.slideforecastIconUpIn();
 		}
 	}

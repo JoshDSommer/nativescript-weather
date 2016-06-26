@@ -25,8 +25,6 @@ export class PageDimensions {
 		const cardRowSize = portraitHeight / 5;
 		const cardSize = cardRowSize * 4 - 16;
 
-		console.log(`row :${cardRowSize}`);
-
 		return Rx.Observable.of<IDimensions>({
 			cardRowSize: cardRowSize,
 			cardSize: cardSize,

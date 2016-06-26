@@ -57,9 +57,26 @@ export class LocationService {
 		return this.http.get(googleApiUrl).map(this.extractCityName);
 	}
 
+	getLocationInfoTriniwiz(zip: string): Observable<ILocationInfo> {
+		let apiUrl = `https://api.fitcom.co/weatherecipes/api/location/postalcode?code=${zip}`;
+		console.log(apiUrl);
+		return this.http.get(apiUrl).map(this.extractDataLocation);
+	}
+
+	extractDataLocation(value: any): ILocationInfo {
+		let result = value;
+		console.log(result);
+		return <ILocationInfo>{
+			name: result.address.city + ' ' + result.address.state,
+			lat: result.lat,
+			lng: result.lon,
+			zip: '',
+			default: false
+		};
+	}
+
 	getLocationInfo(zip: string): Observable<ILocationInfo> {
 		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:${zip}&sensor=false`;
-		console.log(googleApiUrl);
 
 		return this.http.get(googleApiUrl).map(this.extractData);
 	}
@@ -68,7 +85,6 @@ export class LocationService {
 		let result = value._body.result[0];
 
 		let address_components: any[] = (<any[]>result.address_components);
-		console.log(JSON.stringify(address_components));
 		let state = address_components.filter((value: any) => {
 			return (<any[]>value.types).indexOf('administrative_area_level_1') > -1;
 		})[0];
