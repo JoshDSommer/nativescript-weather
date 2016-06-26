@@ -27,7 +27,7 @@ declare const android: any;
 		<!---->
 		<ActionBar title="" class="action-bar">
 			<StackLayout orientation="horizontal">
-				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="40" class="fa" text="\uf041" ></Label>
+				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
 				<Label (touch)="refresh($event)" verticalAlignment="bottom" width="50" class="fa" text="\uf021"></Label>
 			</StackLayout>
@@ -62,7 +62,7 @@ export class ForecastComponent implements AfterViewInit {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
 		// themes.applyTheme('theme-natural.css');
-		if (app.android && Platform.device.sdkVersion >= '19') {
+		if (app.android && Platform.device.sdkVersion >= '21') {
 			let window = app.android.foregroundActivity.getWindow();
 			let LayoutParams = <any>android.view.WindowManager.LayoutParams;
 			window.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

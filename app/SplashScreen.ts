@@ -15,7 +15,7 @@ export class SplashScreen extends com.viksaa.sssplash.lib.activity.AwesomeSplash
 		configSplash.setRevealFlagX(com.viksaa.sssplash.lib.cnst.Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
 		configSplash.setRevealFlagY(com.viksaa.sssplash.lib.cnst.Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
 
-		if (app.android && Platform.device.sdkVersion >= '19') {
+		if (app.android && Platform.device.sdkVersion >= '21') {
 			let window = app.android.startActivity.getWindow();
 			window.setStatusBarColor(new Color('#8ba192').android);
 			window.setNavigationBarColor(new Color('#644749').android);
@@ -33,7 +33,7 @@ export class SplashScreen extends com.viksaa.sssplash.lib.activity.AwesomeSplash
 		const intent = new android.content.Intent(com.tns.NativeScriptApplication.getInstance().getApplicationContext(), com.tns.NativeScriptActivity.class)
 		intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
 		com.tns.NativeScriptApplication.getInstance().startActivity(intent);
-		if (app.android && Platform.device.sdkVersion >= '19') {
+		if (app.android && Platform.device.sdkVersion >= '21') {
 			let window = app.android.startActivity.getWindow();
 			window.setStatusBarColor(new Color('#8ba192').android);
 			window.setNavigationBarColor(new Color('#644749').android);

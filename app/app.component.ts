@@ -65,7 +65,7 @@ export class WeatherAppComponent {
 	}
 	ngAfterViewInit(): void {
 		SwissArmyKnife.actionBarSetStatusBarStyle(1);
-		if (app.android && Platform.device.sdkVersion >= '19') {
+		if (app.android && Platform.device.sdkVersion >= '21') {
 			let window = app.android.startActivity.getWindow();
 			window.setStatusBarColor(new Color('#8ba192').android);
 			window.setNavigationBarColor(new Color('#644749').android);

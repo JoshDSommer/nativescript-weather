@@ -77,7 +77,6 @@ export class LocationService {
 
 	getLocationInfo(zip: string): Observable<ILocationInfo> {
 		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:${zip}&sensor=false`;
-
 		return this.http.get(googleApiUrl).map(this.extractData);
 	}
 
@@ -90,21 +89,10 @@ export class LocationService {
 		})[0];
 
 		return state;
-		// return (<any[]>result.address_components).map((value: any, index: number) => {
-		// 	if ((<any[]>value.types).indexOf('locality') >= 0) {
-		// 		return value.long_name;
-		// 	}
-		// })[0] + ' ' + .map((value: any, index: number) => {
-		// 	if ((<any[]>value.types).indexOf('administrative_area_level_1') >= 0) {
-		// 		return value.short_name;
-		// 	}
-		// })[0];
 	}
 
 	extractData(value: any): ILocationInfo {
 		let result = value._body.results[0];
-		//let cityName = this.extractCityName(value);
-
 		return <ILocationInfo>{
 			name: result.formatted_address.replace(', USA', ''),
 			lat: result.geometry.bounds.northeast.lat,

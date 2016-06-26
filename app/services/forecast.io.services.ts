@@ -22,7 +22,7 @@ export interface IForecast {
 
 export interface IForecastCardInfo {
 	summary: string;
-	icon: string;//: partly-cloudy-night,
+	icon: string;
 	temperature: number;
 	temperatureDiff: number;
 	windSpeed: number;
@@ -36,7 +36,7 @@ export interface IForecastCardInfo {
 interface IForecastData {
 	time: number;
 	summary: string;
-	icon: string;//: partly-cloudy-night,
+	icon: string;
 	precipIntensity: number;
 	precipProbability: number;
 	temperature: number;
@@ -61,11 +61,8 @@ export class ForecastIOService {
 	}
 
 	getForecast(lat: string, lng: string): Observable<IForecast> {
-		//	let data = applicationSettings.getString(`${this.currentDate.getFullYear()}-0${this.currentDate.getMonth() + 1}-${this.currentDate.getDate()}`);
-		//	if (data == null) {
 		let forecastURL = this.requestURl.replace('[lat]', lat).replace('[lng]', lng);
 		return this.http.get(forecastURL).map(this.extractData);
-		//	}
 	}
 
 
@@ -92,7 +89,7 @@ export class ForecastIOService {
 		};
 
 		forecast.temperature = Math.floor(body.currently.temperature);
-		forecast.location = 'Canton Ohio';
+		forecast.location = '';
 
 		let daily = body.daily.data;
 

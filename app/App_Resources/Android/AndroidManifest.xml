@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="__PACKAGE__"
-	android:versionCode="2"
-	android:versionName="1.1">
+	android:versionCode="3"
+	android:versionName="1.2">
 
 	<supports-screens
 		android:smallScreens="true"
@@ -32,7 +32,9 @@
 		</activity>
 		 <activity android:name="co.fitcom.SplashScreen" >
 				<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+				<action android:name="android.intent.action.MAIN"
+					android:screenOrientation="portrait"
+				/>
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
