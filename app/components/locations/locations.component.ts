@@ -15,6 +15,7 @@ import {TextField} from 'ui/text-field';
 import * as app from 'application';
 import {Color} from 'color';
 import * as Platform from 'platform';
+import * as Dialogs from 'ui/dialogs';
 
 @Component({
 	selector: 'locations-component',
@@ -111,13 +112,25 @@ export class LocationsComponent {
 			let postalCode: string = this.postalCodeTxt.nativeElement.text;
 			this.postalCodeTxt.nativeElement.dismissSoftInput();
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
-				this.displayLocation(value);
-				(<Label>this.saveButton.nativeElement).animate(
-					{
-						opacity: 1,
-						duration: 400,
-					}
-				);
+				if (value.name === 'none') {
+					Dialogs.alert({
+						title: 'Oops',
+						message: 'No locations found with the postal code ' + postalCode,
+						okButtonText: 'Try something else'
+					}).then(function () {
+						this.postalCodeTxt.nativeElement.text = '';
+						this.saveButton.nativeElement.opacity = 0;
+					});
+				} else {
+					this.displayLocation(value);
+					(<Label>this.saveButton.nativeElement).animate(
+						{
+							opacity: 1,
+							duration: 400,
+						}
+					);
+				}
+
 			});
 		} else if (e.action === 'down') {
 			(<Label>e.object).opacity = 0.5;
@@ -159,6 +172,7 @@ export class LocationsComponent {
 
 		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
 		this.resultTxt.nativeElement.opacity = 0;
+		this.saveButton.nativeElement.opacity = 0;
 
 		let white = new Color('#fff');
 
@@ -176,9 +190,8 @@ export class LocationsComponent {
 
 		// this setTimeout should not be needed ?!?
 		setTimeout(() => {
-			this.saveButton.nativeElement.opacity = 0;
 			this.locationCard.nativeElement.animate({
-				duration: 1500,
+				duration: 1800,
 				translate: { x: 0, y: 0 },
 				curve: AnimationCurve.easeOut
 			});

@@ -76,7 +76,8 @@ export class LocationService {
 	}
 
 	getLocationInfo(zip: string): Observable<ILocationInfo> {
-		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:${zip}&sensor=false`;
+		let safeZip = encodeURIComponent(zip);
+		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:${safeZip}&sensor=false`;
 		return this.http.get(googleApiUrl).map(this.extractData);
 	}
 
@@ -93,6 +94,17 @@ export class LocationService {
 
 	extractData(value: any): ILocationInfo {
 		let result = value._body.results[0];
+
+		if (result == null) {
+			return <ILocationInfo>{
+			name: 'none',
+			lat: '',
+			lng: '',
+			zip: '',
+			default: false
+		};
+		}
+
 		return <ILocationInfo>{
 			name: result.formatted_address.replace(', USA', ''),
 			lat: result.geometry.bounds.northeast.lat,
