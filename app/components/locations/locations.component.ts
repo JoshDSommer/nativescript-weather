@@ -16,6 +16,7 @@ import * as app from 'application';
 import {Color} from 'color';
 import * as Platform from 'platform';
 import * as Dialogs from 'ui/dialogs';
+import * as applicationSettings from 'application-settings';
 
 @Component({
 	selector: 'locations-component',
@@ -30,6 +31,10 @@ import * as Dialogs from 'ui/dialogs';
 			<Label text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
 
 			<Label #result text="" class="result" textWrap="true"></Label>
+			<StackLayout #celsiusWrap orientation="horizontal" class="celsius-wrap">
+				<Label text="Celsius" class="celsius" textWrap="true"></Label>
+				<Switch #celsiusSwitch horizontalAlignment="right" ></Switch>
+			</StackLayout>
 			<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
 
 		</StackLayout>
@@ -73,6 +78,18 @@ import * as Dialogs from 'ui/dialogs';
 			font-size:20;
 			text-align:center;
 		}
+		.celsius-wrap{
+			margin:8 20%;
+			width:60%;
+			padding:0 5;
+
+		}
+		.celsius{
+			color:#fff;
+			text-align:left;
+			font-size:20;
+			width:70%;
+		}
 		.postal-code{
 			margin:10 0;
 			color:#fff;
@@ -89,6 +106,8 @@ export class LocationsComponent {
 	@ViewChild('result') resultTxt: ElementRef;
 	@ViewChild('locationCard') locationCard: ElementRef;
 	@ViewChild('saveButton') saveButton: ElementRef;
+	@ViewChild('celsiusSwitch') celsiusSwitch: ElementRef;
+	@ViewChild('celsiusWrap') celsiusWrap: ElementRef;
 
 	public location: ILocationInfo;
 	public leftOffset: number;
@@ -120,9 +139,11 @@ export class LocationsComponent {
 					}).then(function () {
 						this.postalCodeTxt.nativeElement.text = '';
 						this.saveButton.nativeElement.opacity = 0;
+						this.celsiusWrap.nativeElement.visibility = 'collapse';
 					});
 				} else {
 					this.displayLocation(value);
+					this.celsiusWrap.nativeElement.visibility = 'visible';
 					(<Label>this.saveButton.nativeElement).animate(
 						{
 							opacity: 1,
@@ -143,7 +164,7 @@ export class LocationsComponent {
 			(<Label>e.object).opacity = 1;
 			this.locationService.saveLocation(this.location);
 			this.router.navigate(['']);
-
+			applicationSettings.setBoolean('celsius', this.celsiusSwitch.nativeElement.checked);
 		} else if (e.action === 'down') {
 			(<Label>e.object).opacity = 0.5;
 		}
@@ -169,10 +190,12 @@ export class LocationsComponent {
 
 
 	ngAfterViewInit() {
+		this.celsiusSwitch.nativeElement.checked = false;
 
 		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
 		this.resultTxt.nativeElement.opacity = 0;
 		this.saveButton.nativeElement.opacity = 0;
+		this.celsiusWrap.nativeElement.visibility = 'collapse';
 
 		let white = new Color('#fff');
 

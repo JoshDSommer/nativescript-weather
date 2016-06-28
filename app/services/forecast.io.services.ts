@@ -62,6 +62,9 @@ export class ForecastIOService {
 
 	getForecast(lat: string, lng: string): Observable<IForecast> {
 		let forecastURL = this.requestURl.replace('[lat]', lat).replace('[lng]', lng);
+		if (applicationSettings.getBoolean('celsius')) {
+			forecastURL = forecastURL + '?units=si';
+		}
 		return this.http.get(forecastURL).map(this.extractData);
 	}
 
