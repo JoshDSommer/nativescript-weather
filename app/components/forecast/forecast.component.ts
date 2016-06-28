@@ -29,7 +29,7 @@ declare const android: any;
 			<StackLayout orientation="horizontal">
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-				<Label (touch)="refresh($event)" verticalAlignment="bottom" width="50" class="fa" text="\uf021"></Label>
+				<Label (touch)="refresh($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
 		<AbsoluteLayout id="slider-container">
@@ -134,4 +134,5 @@ export class ForecastComponent implements AfterViewInit {
 	ngAfterViewInit(): void {
 
 	}
+
 }
