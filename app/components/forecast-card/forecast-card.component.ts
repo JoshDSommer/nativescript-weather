@@ -10,6 +10,8 @@ import { Subject } from 'rxjs/Subject';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {Color} from 'color';
 import {AnimationCurve, Orientation} from 'ui/enums';
+import * as Platform from 'platform';
+const themes = require('nativescript-themes');
 
 export enum CardState {
 	hidden = 0,
@@ -25,13 +27,13 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 @Component({
 	selector: 'forecast-card',
 	template: `
-		<AbsoluteLayout [class]="forecast?.timeOfDay" (touch)="cardTapEvent($event)" #card class="card" [width]="width" borderRadius="0" [height]="height * 4" [left]="left" [top]="top"  >
+		<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card width="100%" [height]="height * 3" [left]="left" [top]="top"  >
 			<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
 			<StackLayout top="20" left="200" [height]="height * 2" >
 				<Label class="time" [text]="forecast?.day"></Label>
-				<Label [text]="forecast?.temperature + '\u00B0'" class="info-text degrees" textWrap="true"></Label>
-				<StackLayout #forecastInfo [width]="width" [height]="height * 2" class="forecast">
-					<Label [text]="forecast?.summary" class="info-text summary" width="45%" textWrap="true"></Label>
+				<Label [text]="forecast?.temperature + '\u00B0'" class="degrees" textWrap="true"></Label>
+				<StackLayout #forecastInfo [height]="height * 2" class="forecast">
+					<Label [text]="forecast?.summary" class="info-text summary"  textWrap="true"></Label>
 					<Label [text]="'Wind: ' + forecast?.windBearing + ' ' + forecast?.windSpeed + ' mph'" class="info-text wind" textWrap="true"></Label>
 					<Label [text]="'Humidity: ' + forecast?.humidity + '%'" class="info-text humidity" textWrap="true"></Label>
 				</StackLayout>
@@ -50,7 +52,6 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	@ViewChild('card') public card: ElementRef;
 	@ViewChild('forecastIcon') public forecastIcon: ElementRef;
 	@ViewChild('forecastInfo') public forecastInfo: ElementRef;
-	public width: number;
 	private rippling: boolean;
 	private forecastContainer: StackLayout;
 	public selected: boolean;
@@ -58,7 +59,6 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	private downDistance: number;
 
 	constructor(private fonticon: TNSFontIconService, private positioning: PositioningService) {
-		this.width = SwissArmyKnife.getScreenHeight().landscape;
 		this.rippling = false;
 		this.downDistance = 250;
 		this.upDistance = -250;
@@ -66,6 +66,19 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
+		const screen = Platform.screen;
+		const scale = screen.mainScreen.widthDIPs;
+
+		if (scale >= 600) {
+			themes.applyTheme('app.minWH600.css');
+		} else if (scale >= 400) {
+			themes.applyTheme('app.minWH480.css');
+		} else if (scale >= 320) {
+			themes.applyTheme('app.minWH320.css');
+		} else {
+			themes.applyTheme('app.minWHdefault.css');
+		}
+
 	}
 
 	ngAfterViewInit() {
@@ -155,7 +168,7 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 			curve: AnimationCurve.easeIn,
 			delay: 400,
 		}).then(() => {
-			if(previousCard != null)
+			if (previousCard != null)
 				previousCard.hideForecast();
 			forecast.translateY = 0; //sets the ending position to 0 as to prevent ios from reverting
 		});
