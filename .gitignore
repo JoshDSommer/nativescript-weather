@@ -5,3 +5,5 @@ app/*.js
 *.d.ts
 node_modules
 platforms
+!webpack.config.js
+!app/tns-java-classes.js
