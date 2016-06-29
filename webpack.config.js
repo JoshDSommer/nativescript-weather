@@ -1,5 +1,5 @@
 var bundler = require("nativescript-dev-webpack");
 
-module.exports = bundler.getConfig({
-
-});
+var config = bundler.getConfig({});
+config.output.pathinfo = false;
+module.exports = config;

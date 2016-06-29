@@ -17,6 +17,7 @@ import {Color} from 'color';
 import * as Platform from 'platform';
 import * as Dialogs from 'ui/dialogs';
 import * as applicationSettings from 'application-settings';
+const themes = require('nativescript-themes');
 
 @Component({
 	selector: 'locations-component',
@@ -129,7 +130,7 @@ export class LocationsComponent {
 			(<Label>e.object).opacity = 1;
 			let postalCode: string = this.postalCodeTxt.nativeElement.text;
 
-			if (postalCode == null || postalCode == '') {
+			if (postalCode == null || postalCode === '') {
 				Dialogs.alert({
 					title: 'Oops',
 					message: 'You need to enter a postal code',
@@ -191,7 +192,20 @@ export class LocationsComponent {
 	}
 
 	ngOnInit() {
+		const screen = Platform.screen;
+		const scale = screen.mainScreen.widthDIPs;
+
+		if (scale >= 600) {
+			themes.applyTheme('app.minWH600.css');
+		} else if (scale >= 400) {
+			themes.applyTheme('app.minWH480.css');
+		} else if (scale >= 320) {
+			themes.applyTheme('app.minWH320.css');
+		} else {
+			themes.applyTheme('app.minWHdefault.css');
+		}
 	}
+
 
 
 	ngAfterViewInit() {

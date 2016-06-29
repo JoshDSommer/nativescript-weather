@@ -13,6 +13,7 @@ import {NS_ROUTER_DIRECTIVES, nsProvideRouter} from 'nativescript-angular/router
 import * as app from 'application';
 import {Color} from 'color';
 import * as Platform from 'platform';
+const themes = require('nativescript-themes');
 
 declare const android: any;
 
@@ -41,7 +42,19 @@ export class WeatherAppComponent {
 
 	@ViewChild('wrapper') stackLayout: ElementRef;
 
-	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {}
+	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
+		// this.forecast = false;
+		// let page = <Page>topmost().currentPage;
+		// page.actionBarHidden = true;
+		//	themes.applyTheme('theme-natural.css');
+		//page.style.paddingTop = 50;// SwissArmyKnife.getScreenHeight().androidStatusBar;
+		// locationService.getLogLat().then(() => {
+		// 	locationService.getCityName().subscribe((value: string) => {
+		// 		this.cityTemp = value;
+
+		// 	});
+		// });
+	}
 
 	public getStatusBarHeight() {
 		let result = 0;
@@ -52,13 +65,14 @@ export class WeatherAppComponent {
 		return result;
 	}
 	ngAfterViewInit(): void {
+
 		SwissArmyKnife.actionBarSetStatusBarStyle(1);
 	}
 }
 
 var routes: RouterConfig = [
-	{ path: "", component: ForecastComponent },
-	{ path: "location", component: LocationsComponent }
+	{ path: '', component: ForecastComponent },
+	{ path: 'location', component: LocationsComponent }
 ];
 
 export var APP_ROUTES = [
