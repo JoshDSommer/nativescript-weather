@@ -1,0 +1,17 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+		<item name="colorPrimary">@color/ns_primary</item>
+        <item name="colorPrimaryDark">@color/ns_primary</item>
+        <item name="colorAccent">@color/ns_primary</item>
+		<item name="android:textColorHint">@color/ns_primary</item>
+        <item name="android:statusBarColor">@color/weather_darkGreen</item>
+		<item name="android:timePickerDialogTheme">@style/AlertDialogCustom</item>
+  		<item name="android:datePickerDialogTheme">@style/AlertDialogCustom</item>
+		<item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
+    </style>
+	<style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
+		<item name="android:colorPrimary">@color/weather_darkGreen</item>
+		<item name="android:colorAccent">@color/weather_darkGreen</item>
+	</style>
+</resources>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
   <resources>
-    <color name="ns_accent">#fff</color>
+   <color name="ns_primary">#fff</color>
+   <color name="ns_primaryDark">#fff</color>
+   <color name="ns_accent">#fff</color>
     <color name="weather_green">#8ba892</color>
     <color name="weather_brown">#644749</color>
+    <color name="weather_darkGreen">#8ba192</color>
 </resources>
