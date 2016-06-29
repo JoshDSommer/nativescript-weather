@@ -191,8 +191,6 @@ export class LocationsComponent {
 	}
 
 	ngOnInit() {
-		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
-		postalCodeTxt.android.setHintTextColor(android.graphics.Color.parseColor('#FFFFFF'));
 	}
 
 
