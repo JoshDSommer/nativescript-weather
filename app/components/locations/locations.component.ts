@@ -127,8 +127,16 @@ export class LocationsComponent {
 	lookUpPostalCode(e: gestures.TouchGestureEventData) {
 		if (e.action === 'up') {
 			(<Label>e.object).opacity = 1;
-
 			let postalCode: string = this.postalCodeTxt.nativeElement.text;
+
+			if (postalCode == null || postalCode == '') {
+				Dialogs.alert({
+					title: 'Oops',
+					message: 'You need to enter a postal code',
+					okButtonText: 'Try something else'
+				}).then();
+				return;
+			}
 			this.postalCodeTxt.nativeElement.dismissSoftInput();
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
 				if (value.name === 'none') {
@@ -183,9 +191,8 @@ export class LocationsComponent {
 	}
 
 	ngOnInit() {
-		let page = <Page>topmost().currentPage;
-		// page.actionBarHidden = true;
-
+		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
+		postalCodeTxt.android.setHintTextColor(android.graphics.Color.parseColor('#FFFFFF'));
 	}
 
 
@@ -196,10 +203,6 @@ export class LocationsComponent {
 		this.resultTxt.nativeElement.opacity = 0;
 		this.saveButton.nativeElement.opacity = 0;
 		this.celsiusWrap.nativeElement.visibility = 'collapse';
-
-		let white = new Color('#fff');
-
-		(<android.widget.EditText>postalCodeTxt.android).setHintTextColor(white.android);
 
 		postalCodeTxt.keyboardType = KeyboardType.number;
 

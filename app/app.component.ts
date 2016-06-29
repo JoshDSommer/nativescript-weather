@@ -41,19 +41,7 @@ export class WeatherAppComponent {
 
 	@ViewChild('wrapper') stackLayout: ElementRef;
 
-	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
-		// this.forecast = false;
-		// let page = <Page>topmost().currentPage;
-		// page.actionBarHidden = true;
-		//	themes.applyTheme('theme-natural.css');
-		//page.style.paddingTop = 50;// SwissArmyKnife.getScreenHeight().androidStatusBar;
-		// locationService.getLogLat().then(() => {
-		// 	locationService.getCityName().subscribe((value: string) => {
-		// 		this.cityTemp = value;
-
-		// 	});
-		// });
-	}
+	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {}
 
 	public getStatusBarHeight() {
 		let result = 0;
@@ -65,11 +53,6 @@ export class WeatherAppComponent {
 	}
 	ngAfterViewInit(): void {
 		SwissArmyKnife.actionBarSetStatusBarStyle(1);
-		if (app.android && Platform.device.sdkVersion >= '21') {
-			let window = app.android.startActivity.getWindow();
-			window.setStatusBarColor(new Color('#8ba192').android);
-			window.setNavigationBarColor(new Color('#644749').android);
-		}
 	}
 }
 
