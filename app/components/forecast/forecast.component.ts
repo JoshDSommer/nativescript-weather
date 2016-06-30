@@ -69,19 +69,17 @@ export class ForecastComponent implements AfterViewInit {
 	public cityTemp: string;
 	public dimensions: IDimensions;
 	public forecastDate: number;
+	private placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
 
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
-		let page = <Page>topmost().currentPage;
-		// page.actionBarHidden = true;
 
-		let placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
 		this.forecast = {
 			temperature: 0,
-			location: 'Canton Ohio',
-			morning: forecastIOService.extractForecastCardInfo(placeholderInfo, 'morning', 0),
-			day: forecastIOService.extractForecastCardInfo(placeholderInfo, 'day', 0),
-			evening: forecastIOService.extractForecastCardInfo(placeholderInfo, 'evening', 0),
-			night: forecastIOService.extractForecastCardInfo(placeholderInfo, 'night', 0),
+			location: 'Refreshing',
+			morning: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'morning', 0),
+			day: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'day', 0),
+			evening: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'evening', 0),
+			night: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'night', 0),
 		};
 
 		pageDimensions.getDimensions().subscribe((data: IDimensions) => {
@@ -96,7 +94,19 @@ export class ForecastComponent implements AfterViewInit {
 	public refreshPage(args: any) {
 		console.log("page refresh -> go");
 		let pullRefresh = args.object;
-		this.refreshForecast(pullRefresh);
+		this.cityTemp = `Refreshing Forecast`;
+		// this.forecast = {
+		// 	temperature: 0,
+		// 	location: 'Refreshing',
+		// 	morning: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'morning', 0),
+		// 	day: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'day', 0),
+		// 	evening: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'evening', 0),
+		// 	night: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'night', 0),
+		// };
+		this.ref.detectChanges();
+		setTimeout(() => {
+			this.refreshForecast(pullRefresh);
+		}, 1500);
 	}
 
 	refreshForecast(pullRefresh?: any): void {
