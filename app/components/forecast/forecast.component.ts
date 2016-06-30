@@ -1,3 +1,6 @@
+
+/// <reference path="../../../node_modules/nativescript-pulltorefresh/pulltorefresh.d.ts" />
+
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import * as app from 'application';
 import * as Platform from 'platform';
@@ -15,6 +18,10 @@ import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
 import {Label} from 'ui/label';
 import {Color} from 'color';
+import {PullToRefresh} from 'nativescript-pulltorefresh';
+import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
+
+registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 
 declare const android: any;
 
@@ -32,12 +39,17 @@ declare const android: any;
 				<Label (touch)="refresh($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
-		<AbsoluteLayout id="slider-container">
-			<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
-			<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
-			<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
-			<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
-		</AbsoluteLayout>
+		<PullToRefresh (refresh)="refreshPage($event)">
+		<StackLayout>
+			<AbsoluteLayout id="slider-container">
+				<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
+				<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
+				<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
+				<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
+			</AbsoluteLayout>
+		</StackLayout>
+		</PullToRefresh>
+
 
 `,
 	directives: [ForecastCardComponent],
@@ -81,8 +93,13 @@ export class ForecastComponent implements AfterViewInit {
 
 
 	}
+	public refreshPage(args: any) {
+		console.log("page refresh -> go");
+		let pullRefresh = args.object;
+		this.refreshForecast(pullRefresh);
+	}
 
-	refreshForecast(): void {
+	refreshForecast(pullRefresh?: any): void {
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
 			this.router.navigate(['/location']);
@@ -101,6 +118,9 @@ export class ForecastComponent implements AfterViewInit {
 			this.forecast.morning = value.morning;
 			this.forecast.night = value.night;
 			this.ref.detectChanges();
+			if (pullRefresh != null) {
+				pullRefresh.refreshing = false;
+			}
 		});
 	}
 
