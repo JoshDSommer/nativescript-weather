@@ -61,14 +61,7 @@ export class ForecastComponent implements AfterViewInit {
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
-		// themes.applyTheme('theme-natural.css');
-		if (app.android && Platform.device.sdkVersion >= '21') {
-			let window = app.android.foregroundActivity.getWindow();
-			let LayoutParams = <any>android.view.WindowManager.LayoutParams;
-			window.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-			window.setStatusBarColor(new Color('#8ba192').android);
-			window.setNavigationBarColor(new Color('#644749').android);
-		}
+
 		let placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
 		this.forecast = {
 			temperature: 0,

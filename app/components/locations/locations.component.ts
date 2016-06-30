@@ -31,10 +31,10 @@ import * as applicationSettings from 'application-settings';
 			<Label text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
 
 			<Label #result text="" class="result" textWrap="true"></Label>
-			<StackLayout #celsiusWrap orientation="horizontal" class="celsius-wrap">
-				<Label text="Celsius" class="celsius" textWrap="true"></Label>
-				<Switch #celsiusSwitch horizontalAlignment="right" ></Switch>
-			</StackLayout>
+			<GridLayout #celsiusWrap rows="*" columns="80,*" class="celsius-wrap">
+				<Label row="0" col="0" text="Celsius" class="celsius" textWrap="true"></Label>
+				<Switch  row="0" col="1" #celsiusSwitch horizontalAlignment="right" ></Switch>
+			</GridLayout>
 			<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
 
 		</StackLayout>
@@ -82,7 +82,7 @@ import * as applicationSettings from 'application-settings';
 			margin:8 20%;
 			width:60%;
 			padding:0 5;
-
+			height:25;
 		}
 		.celsius{
 			color:#fff;
@@ -129,6 +129,15 @@ export class LocationsComponent {
 			(<Label>e.object).opacity = 1;
 
 			let postalCode: string = this.postalCodeTxt.nativeElement.text;
+			if (postalCode == null || postalCode === '') {
+				Dialogs.alert({
+					title: 'Oops',
+					message: 'You need to enter a postal code',
+					okButtonText: 'Try something else'
+				}).then();
+				return;
+			}
+
 			this.postalCodeTxt.nativeElement.dismissSoftInput();
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
 				if (value.name === 'none') {
