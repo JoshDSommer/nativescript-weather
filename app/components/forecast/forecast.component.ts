@@ -24,6 +24,7 @@ declare const android: any;
 	selector: 'forecast-component',
 	template: `
 	<GridLayout>
+		<!---->
 		<ActionBar title="" class="action-bar">
 			<StackLayout orientation="horizontal">
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
@@ -37,6 +38,7 @@ declare const android: any;
 			<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
 			<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 		</AbsoluteLayout>
+
 `,
 	directives: [ForecastCardComponent],
 	providers: [PageDimensions, PositioningService],
@@ -59,17 +61,11 @@ export class ForecastComponent implements AfterViewInit {
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
-		// themes.applyTheme('theme-natural.css');
-		if (app.android && Platform.device.sdkVersion >= '21') {
-			let window = app.android.foregroundActivity.getWindow();
-			let LayoutParams = <any>android.view.WindowManager.LayoutParams;
-			window.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-			window.setNavigationBarColor(new Color('#644749').android);
-		}
+
 		let placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
 		this.forecast = {
 			temperature: 0,
-			location: '',
+			location: 'Canton Ohio',
 			morning: forecastIOService.extractForecastCardInfo(placeholderInfo, 'morning', 0),
 			day: forecastIOService.extractForecastCardInfo(placeholderInfo, 'day', 0),
 			evening: forecastIOService.extractForecastCardInfo(placeholderInfo, 'evening', 0),

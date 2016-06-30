@@ -17,7 +17,6 @@ import {Color} from 'color';
 import * as Platform from 'platform';
 import * as Dialogs from 'ui/dialogs';
 import * as applicationSettings from 'application-settings';
-const themes = require('nativescript-themes');
 
 @Component({
 	selector: 'locations-component',
@@ -32,10 +31,10 @@ const themes = require('nativescript-themes');
 			<Label text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
 
 			<Label #result text="" class="result" textWrap="true"></Label>
-			<StackLayout #celsiusWrap orientation="horizontal" class="celsius-wrap">
-				<Label text="Celsius" class="celsius" textWrap="true"></Label>
-				<Switch #celsiusSwitch horizontalAlignment="right" ></Switch>
-			</StackLayout>
+			<GridLayout #celsiusWrap rows="*" columns="80,*" class="celsius-wrap">
+				<Label row="0" col="0" text="Celsius" class="celsius" textWrap="true"></Label>
+				<Switch  row="0" col="1" #celsiusSwitch horizontalAlignment="right" ></Switch>
+			</GridLayout>
 			<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
 
 		</StackLayout>
@@ -83,7 +82,7 @@ const themes = require('nativescript-themes');
 			margin:8 20%;
 			width:60%;
 			padding:0 5;
-
+			height:25;
 		}
 		.celsius{
 			color:#fff;
@@ -128,8 +127,8 @@ export class LocationsComponent {
 	lookUpPostalCode(e: gestures.TouchGestureEventData) {
 		if (e.action === 'up') {
 			(<Label>e.object).opacity = 1;
-			let postalCode: string = this.postalCodeTxt.nativeElement.text;
 
+			let postalCode: string = this.postalCodeTxt.nativeElement.text;
 			if (postalCode == null || postalCode === '') {
 				Dialogs.alert({
 					title: 'Oops',
@@ -138,6 +137,7 @@ export class LocationsComponent {
 				}).then();
 				return;
 			}
+
 			this.postalCodeTxt.nativeElement.dismissSoftInput();
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
 				if (value.name === 'none') {
@@ -192,20 +192,10 @@ export class LocationsComponent {
 	}
 
 	ngOnInit() {
-		const screen = Platform.screen;
-		const scale = screen.mainScreen.widthDIPs;
+		let page = <Page>topmost().currentPage;
+		// page.actionBarHidden = true;
 
-		if (scale >= 600) {
-			themes.applyTheme('app.minWH600.css');
-		} else if (scale >= 400) {
-			themes.applyTheme('app.minWH480.css');
-		} else if (scale >= 320) {
-			themes.applyTheme('app.minWH320.css');
-		} else {
-			themes.applyTheme('app.minWHdefault.css');
-		}
 	}
-
 
 
 	ngAfterViewInit() {
@@ -215,6 +205,10 @@ export class LocationsComponent {
 		this.resultTxt.nativeElement.opacity = 0;
 		this.saveButton.nativeElement.opacity = 0;
 		this.celsiusWrap.nativeElement.visibility = 'collapse';
+
+		let white = new Color('#fff');
+
+		(<android.widget.EditText>postalCodeTxt.android).setHintTextColor(white.android);
 
 		postalCodeTxt.keyboardType = KeyboardType.number;
 

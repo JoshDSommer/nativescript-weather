@@ -13,7 +13,6 @@ import {NS_ROUTER_DIRECTIVES, nsProvideRouter} from 'nativescript-angular/router
 import * as app from 'application';
 import {Color} from 'color';
 import * as Platform from 'platform';
-const themes = require('nativescript-themes');
 
 declare const android: any;
 
@@ -65,14 +64,15 @@ export class WeatherAppComponent {
 		return result;
 	}
 	ngAfterViewInit(): void {
-
 		SwissArmyKnife.actionBarSetStatusBarStyle(1);
+		SwissArmyKnife.setAndroidNavBarColor('#644749');
+		SwissArmyKnife.setAndroidStatusBarColor('#8ba192');
 	}
 }
 
 var routes: RouterConfig = [
-	{ path: '', component: ForecastComponent },
-	{ path: 'location', component: LocationsComponent }
+	{ path: "", component: ForecastComponent },
+	{ path: "location", component: LocationsComponent }
 ];
 
 export var APP_ROUTES = [
