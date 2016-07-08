@@ -82,6 +82,10 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
+		let card: AbsoluteLayout = this.card.nativeElement;
+		// card.clipToBounds doesnt seem to work but calling the native elment does.
+		card.ios.clipsToBounds = true;
+
 		let icon = <Label>this.forecastIcon.nativeElement;
 		icon.translateY = this.downDistance;
 		if (this.forecast != null) {
