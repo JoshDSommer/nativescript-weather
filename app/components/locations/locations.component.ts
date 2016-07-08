@@ -24,7 +24,7 @@ import * as applicationSettings from 'application-settings';
 		<ActionBar title="Set Your Location" class="action-bar">
 			<!-- <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"></NavigationButton> -->
 		</ActionBar>
-		<StackLayout #locationCard class="evening">
+		<StackLayout #locationCard class="location-card">
 			<Label text="Enter your postal code" textWrap="true" class="header"></Label>
 
 			<TextField #postalCode hint="Postal Code" class="postal-code" text=""></TextField>
@@ -43,14 +43,15 @@ import * as applicationSettings from 'application-settings';
 	pipes: [TNSFontIconPipe],
 	styles: [`
 
-		.evening{
+		.location-card{
 			border-radius:15;
 			height:60%;
 			width:80%;
 			margin:0 10% 10% 10%;
 			padding:5px 15px;
+			background-color: #b1695a;
 		}
-		.evening Label, .evening TextField{
+		.location-card Label, .location-card TextField{
 			color:#fff;
 		}
 		.header{

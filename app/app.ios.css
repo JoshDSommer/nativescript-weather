@@ -1,67 +1,20 @@
-﻿.wi {
+﻿
+.wi {
   font-family: 'Weather Icons', weathericons-regular-webfont;
     font-size:95;
 }
+
 .fa{
 	font-family: 'FontAwesome', fontawesome-webfont;
-}
-
-.time{
-	color:#fff;
-	opacity:0.4;
-	font-weight:bold;
-	font-size:22;
-	horizontal-align:left;
-	text-transform:uppercase;
-	letter-spacing:2;
-
-}
-
-.summary{
-	font-size:25;
-
-}
-
-.forecast{
-	margin-top: 10;
-}
-
-.info-text{
-	color:#fff;
-	horizontal-align:left;
-	font-weight:bold;
-	font-size:20;
-}
-.wind{
-	margin-top: 25;
-}
-
-.degrees{
-	font-size:40;
-	font-weight:normal;
-	margin-top: 10;
+	font-size: 25;
 }
 
 
-.nav-bar{
-	height:50;
-	width:100%;
-}
-.nav-bar Label{
-	margin-left:20;
-	margin-bottom:13;
-	font-size:20;
-}
 
-
-Page, .action-bar, #container-wrapper, .action-bar StackLayout{
+Page, .action-bar, #container-wrapper{
     background-color:#8ba892;
 }
-#container-wrapper{
-	background-color:#8ba892;
-}
-
-.nav-bar{
+.action-bar, .nav-bar{
 	color:#fff;
 }
 
