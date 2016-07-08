@@ -27,7 +27,7 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 @Component({
 	selector: 'forecast-card',
 	template: `
-		<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card width="100%" [height]="height * 3" [left]="left" [top]="top"  >
+		<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card [width]="width" [height]="height * 3" [left]="left" [top]="top"  >
 			<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
 			<StackLayout top="20" left="200" [height]="height * 2" >
 				<Label class="time" [text]="forecast?.day"></Label>
@@ -58,11 +58,15 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	private upDistance: number;
 	private downDistance: number;
 
+	width: number;
+
 	constructor(private fonticon: TNSFontIconService, private positioning: PositioningService) {
 		this.rippling = false;
 		this.downDistance = 250;
 		this.upDistance = -250;
 		this.selected = false;
+
+		this.width = SwissArmyKnife.getScreenHeight().landscape;
 	}
 
 	ngOnInit() {
