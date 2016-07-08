@@ -31,36 +31,34 @@ declare const android: any;
 	selector: 'forecast-component',
 	template: `
 	<GridLayout>
-		<!---->
 		<ActionBar title="" class="action-bar">
 			<StackLayout orientation="horizontal">
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-				<Label (touch)="refresh($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
+				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
 		<android>
-		<PullToRefresh (refresh)="refreshPage($event)">
-		<StackLayout>
+			<PullToRefresh (refresh)="refreshPage($event)">
+				<StackLayout>
+					<AbsoluteLayout id="slider-container">
+						<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
+						<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
+						<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
+						<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
+					</AbsoluteLayout>
+				</StackLayout>
+			</PullToRefresh>
+		</android>
+		<ios>
 			<AbsoluteLayout id="slider-container">
 				<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
 				<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
 				<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
 				<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 			</AbsoluteLayout>
-		</StackLayout>
-		</PullToRefresh>
-		</android>
-		<ios>
-			<StackLayout>
-				<AbsoluteLayout id="slider-container">
-					<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
-					<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
-					<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
-					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
-				</AbsoluteLayout>
-			</StackLayout>
 		</ios>
+	</GridLayout>
 `,
 	directives: [ForecastCardComponent],
 	providers: [PageDimensions, PositioningService],
