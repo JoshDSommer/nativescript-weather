@@ -54,10 +54,9 @@
 }
 
 
-Page{
+Page, .action-bar, #container-wrapper, .action-bar StackLayout{
     background-color:#8ba892;
 }
-
 #container-wrapper{
 	background-color:#8ba892;
 }
