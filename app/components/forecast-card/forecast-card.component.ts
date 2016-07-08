@@ -5,6 +5,7 @@ import {IForecastCardInfo} from '../../services/forecast.io.services';
 import {Label} from 'ui/label';
 import {StackLayout} from 'ui/layouts/stack-layout';
 import * as gestures from 'ui/gestures';
+import * as app from 'application';
 import {PositioningService, cardNames } from '../../services/positioning.service';
 import { Subject } from 'rxjs/Subject';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
@@ -86,9 +87,12 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		let card: AbsoluteLayout = this.card.nativeElement;
-		// card.clipToBounds doesnt seem to work but calling the native elment does.
-		card.ios.clipsToBounds = true;
+		if (app.ios) {
+			let card: AbsoluteLayout = this.card.nativeElement;
+			// card.clipToBounds doesnt seem to work but calling the native elment does.
+			card.ios.clipsToBounds = true;
+		}
+
 
 		let icon = <Label>this.forecastIcon.nativeElement;
 		icon.translateY = this.downDistance;
