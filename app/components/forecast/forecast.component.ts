@@ -1,7 +1,7 @@
 
 /// <reference path="../../../node_modules/nativescript-pulltorefresh/pulltorefresh.d.ts" />
 
-import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
+import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit  } from "@angular/core";
 import * as app from 'application';
 import * as Platform from 'platform';
 import {Router} from '@angular/router';
@@ -20,6 +20,7 @@ import {Label} from 'ui/label';
 import {Color} from 'color';
 import {PullToRefresh} from 'nativescript-pulltorefresh';
 import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
+import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 
 registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 
@@ -56,7 +57,7 @@ declare const android: any;
 
 	`]
 })
-export class ForecastComponent implements AfterViewInit {
+export class ForecastComponent implements AfterViewInit, OnInit {
 	@ViewChild('morning') public morning: ElementRef;
 	@ViewChild('day') public day: ElementRef;
 	@ViewChild('evening') public evening: ElementRef;
@@ -106,6 +107,8 @@ export class ForecastComponent implements AfterViewInit {
 	}
 
 	refreshForecast(pullRefresh?: any): void {
+		SwissArmyKnife.actionBarHideBackButton();
+
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
 			this.router.navigate(['/location']);
@@ -149,9 +152,9 @@ export class ForecastComponent implements AfterViewInit {
 			(<Label>e.object).opacity = 0.5;
 		}
 	}
-
+	ngOnInit() {
+	}
 	ngAfterViewInit(): void {
-
 	}
 
 }

@@ -24,7 +24,7 @@ import * as applicationSettings from 'application-settings';
 		<ActionBar title="Set Your Location" class="action-bar">
 			<!-- <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"></NavigationButton> -->
 		</ActionBar>
-		<StackLayout #locationCard class="location-card" [width]="width">
+		<StackLayout #locationCard class="location-card" [height]="height" [width]="width">
 			<Label text="Enter your postal code" textWrap="true" class="header"></Label>
 
 			<TextField #postalCode hint="Postal Code" class="postal-code" text=""></TextField>
@@ -125,7 +125,8 @@ export class LocationsComponent {
 		this.height = (this.pageDimensions.portrait - this.pageDimensions.androidStatusBar - this.pageDimensions.androidNavBar) / 1.75;
 		this.topOffset = this.height;
 
-		this.width = ((this.pageDimensions.landscape / 5) * 4)
+		this.width = ((this.pageDimensions.landscape / 5) * 4);
+		this.height = ((this.pageDimensions.portrait / 5) * 3);
 	}
 
 	lookUpPostalCode(e: gestures.TouchGestureEventData) {
