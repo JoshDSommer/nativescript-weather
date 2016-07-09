@@ -5,6 +5,7 @@ import {IForecastCardInfo} from '../../services/forecast.io.services';
 import {Label} from 'ui/label';
 import {StackLayout} from 'ui/layouts/stack-layout';
 import * as gestures from 'ui/gestures';
+import * as app from 'application';
 import {PositioningService, cardNames } from '../../services/positioning.service';
 import { Subject } from 'rxjs/Subject';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
@@ -27,7 +28,7 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 @Component({
 	selector: 'forecast-card',
 	template: `
-		<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card width="100%" [height]="height * 3" [left]="left" [top]="top"  >
+		<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card [width]="width" [height]="height * 3" [left]="left" [top]="top"  >
 			<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
 			<StackLayout top="20" left="200" [height]="height * 2" >
 				<Label class="time" [text]="forecast?.day"></Label>
@@ -58,11 +59,15 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	private upDistance: number;
 	private downDistance: number;
 
+	width: number;
+
 	constructor(private fonticon: TNSFontIconService, private positioning: PositioningService) {
 		this.rippling = false;
 		this.downDistance = 250;
 		this.upDistance = -250;
 		this.selected = false;
+
+		this.width = SwissArmyKnife.getScreenHeight().landscape;
 	}
 
 	ngOnInit() {
@@ -82,6 +87,13 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
+		if (app.ios) {
+			let card: AbsoluteLayout = this.card.nativeElement;
+			// card.clipToBounds doesnt seem to work but calling the native elment does.
+			card.ios.clipsToBounds = true;
+		}
+
+
 		let icon = <Label>this.forecastIcon.nativeElement;
 		icon.translateY = this.downDistance;
 		if (this.forecast != null) {
