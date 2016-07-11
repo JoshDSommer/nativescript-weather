@@ -39,6 +39,7 @@ declare const android: any;
 				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
+		<!--<PullToRefresh (refresh)="refreshPage($event)">-->
 			<StackLayout>
 				<AbsoluteLayout id="slider-container">
 					<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
@@ -47,6 +48,7 @@ declare const android: any;
 					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 				</AbsoluteLayout>
 			</StackLayout>
+		<!--</PullToRefresh> -->
 	</GridLayout>
 `,
 	directives: [ForecastCardComponent],

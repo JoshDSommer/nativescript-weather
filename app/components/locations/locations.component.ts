@@ -24,20 +24,22 @@ import * as applicationSettings from 'application-settings';
 		<ActionBar title="Set Your Location" class="action-bar">
 			<!-- <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"></NavigationButton> -->
 		</ActionBar>
-		<StackLayout #locationCard class="location-card" [height]="height" [width]="width">
-			<Label text="Enter your postal code" textWrap="true" class="header"></Label>
+		<DockLayout #locationCard class="location-card" [height]="height" [width]="width">
+			<Label dock="top" text="Enter your postal code" textWrap="true" class="header"></Label>
 
-			<TextField #postalCode hint="Postal Code" class="postal-code" text=""></TextField>
-			<Label text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
+			<TextField dock="top" #postalCode hint="Postal Code" class="postal-code" text=""></TextField>
+			<Label dock="top" text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
 
-			<Label #result text="" class="result" textWrap="true"></Label>
-			<GridLayout #celsiusWrap rows="*" columns="80,*" class="celsius-wrap">
-				<Label row="0" col="0" text="Celsius" class="celsius" textWrap="true"></Label>
-				<Switch  row="0" col="1" #celsiusSwitch horizontalAlignment="right" ></Switch>
-			</GridLayout>
-			<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
+			<StackLayout dock="bottom" >
+				<Label #result text="" class="result" textWrap="true"></Label>
 
-		</StackLayout>
+				<GridLayout #celsiusWrap rows="*" columns="75,*" class="celsius-wrap">
+					<Label row="0" col="0" text="Celsius" class="celsius" textWrap="true"></Label>
+					<Switch  row="0" col="1" #celsiusSwitch horizontalAlignment="right" ></Switch>
+				</GridLayout>
+				<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
+			</StackLayout>
+		</DockLayout>
 		`,
 	styleUrls: ['theme-natural.css'],
 	pipes: [TNSFontIconPipe],
@@ -62,8 +64,8 @@ import * as applicationSettings from 'application-settings';
 		}
 		.lookupButton{
 			border-radius:15;
-			margin:5 20%;
-			width:60%;
+			margin:5 15%;
+			width:70%;
 			text-align:center;
 			color:#fff;
 			opacity:0.8;
@@ -74,14 +76,13 @@ import * as applicationSettings from 'application-settings';
 		}
 
 		.result{
-			margin-top:20%;
 			text-transform:uppercase;
 			font-size:20;
 			text-align:center;
 		}
 		.celsius-wrap{
-			margin:8 20%;
-			width:60%;
+			margin:8 15%;
+			width:70%;
 			padding:0 5;
 			height:25;
 		}
@@ -89,16 +90,12 @@ import * as applicationSettings from 'application-settings';
 			color:#fff;
 			text-align:left;
 			font-size:20;
-			width:70%;
 		}
 		.postal-code{
 			margin:10 0;
 			color:#fff;
 			text-align:center;
 			font-size:20;
-		}
-		.save-button{
-			height:45;
 		}
 	`],
 })
@@ -145,6 +142,8 @@ export class LocationsComponent {
 
 			this.postalCodeTxt.nativeElement.dismissSoftInput();
 			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
+				// let value = values[0];
+				//console.log(JSON.stringify(values));
 				if (value.name === 'none') {
 					Dialogs.alert({
 						title: 'Oops',
@@ -199,6 +198,8 @@ export class LocationsComponent {
 	ngOnInit() {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
+		// SwissArmyKnife.actionBarHideBackButton();
+
 
 	}
 
