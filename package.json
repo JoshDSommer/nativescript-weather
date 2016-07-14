@@ -7,13 +7,11 @@
 		"id": "org.joshdsommer.weathercards",
 		"tns-ios": {
 			"version": "2.1.1"
-		},
-		"tns-android": {
-			"version": "2.0.0"
 		}
 	},
 	"scripts": {
-		"rebuild": "tns platform remove android && tns platform add android && tns run android"
+		"rebuild.android": "tns platform remove android && tns platform add android && tns run android",
+		"rebuild.ios": "tns platform remove ios && tns platform add ios && tns run ios"
 	},
 	"dependencies": {
 		"@angular/common": "2.0.0-rc.3",

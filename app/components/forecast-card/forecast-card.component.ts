@@ -71,19 +71,24 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
-		const screen = Platform.screen;
-		const scale = screen.mainScreen.widthDIPs;
+		//only applying this on android.
+		if (app.android) {
+			const screen = Platform.screen;
+			const scale = screen.mainScreen.widthDIPs;
 
-		if (scale >= 600) {
-			themes.applyTheme('app.minWH600.css');
-		} else if (scale >= 400) {
-			themes.applyTheme('app.minWH480.css');
-		} else if (scale >= 320) {
-			themes.applyTheme('app.minWH320.css');
-		} else {
-			themes.applyTheme('app.minWHdefault.css');
+			console.log('DPI - ' + scale);
+
+			if (scale >= 600) {
+				themes.applyTheme('app.minWH600.css');
+			} else if (scale >= 400) {
+				themes.applyTheme('app.minWH480.css');
+			} else if (scale >= 320) {
+				themes.applyTheme('app.minWH320.css');
+			} else {
+				themes.applyTheme('app.minWHdefault.css');
+			}
+
 		}
-
 	}
 
 	ngAfterViewInit() {
