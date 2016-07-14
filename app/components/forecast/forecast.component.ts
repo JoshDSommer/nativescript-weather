@@ -33,6 +33,7 @@ declare const android: any;
 	template: `
 	<GridLayout>
 		<ActionBar title="" class="action-bar">
+			<NavigationButton visibility="collapsed"></NavigationButton>
 			<StackLayout orientation="horizontal">
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
