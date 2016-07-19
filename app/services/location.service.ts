@@ -60,7 +60,7 @@ export class LocationService {
 	getLocationInfoTriniwiz(zip: string): Observable<ILocationInfo> {
 		let apiUrl = `https://api.fitcom.co/weatherecipes/api/location/postalcode?code=${zip}`;
 		console.log(apiUrl);
-		return this.http.get(apiUrl).map(this.extractDataLocation);
+		return this.http.get(apiUrl).map(response => response.json()).map(this.extractDataLocation);
 	}
 
 	extractDataLocation(value: any): ILocationInfo {
@@ -75,7 +75,7 @@ export class LocationService {
 		};
 	}
 
-	getLocationInfo(zip: string): Observable<ILocationInfo> {
+	getLocationInfo(zip: string): Observable<ILocationInfo[]> {
 		let safeZip = encodeURIComponent(zip);
 		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:${safeZip}&sensor=false`;
 		return this.http.get(googleApiUrl).map(this.extractData);
@@ -92,26 +92,29 @@ export class LocationService {
 		return state;
 	}
 
-	extractData(value: any): ILocationInfo {
-		let result = value._body.results[0];
+	extractData(value: any): ILocationInfo[] {
+		let result: any[] = value._body.results;
 
-		if (result == null) {
+		let returnValue = result.map(result => {
+			if (result == null) {
+				return <ILocationInfo>{
+					name: 'none',
+					lat: '',
+					lng: '',
+					zip: '',
+					default: false
+				};
+			}
+
 			return <ILocationInfo>{
-			name: 'none',
-			lat: '',
-			lng: '',
-			zip: '',
-			default: false
-		};
-		}
-
-		return <ILocationInfo>{
-			name: result.formatted_address.replace(', USA', ''),
-			lat: result.geometry.bounds.northeast.lat,
-			lng: result.geometry.bounds.northeast.lng,
-			zip: '',
-			default: false
-		};
+				name: result.formatted_address.replace(', USA', ''),
+				lat: result.geometry.bounds.northeast.lat,
+				lng: result.geometry.bounds.northeast.lng,
+				zip: '',
+				default: false
+			};
+		});
+		return returnValue;
 	}
 
 }
