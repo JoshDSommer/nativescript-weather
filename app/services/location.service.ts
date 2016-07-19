@@ -76,6 +76,11 @@ export class LocationService {
 	}
 
 	getLocationInfo(zip: string): Observable<ILocationInfo[]> {
+		//basically allowing them to set the coutnry
+		if (zip.indexOf(' ') >= 0) {
+			let zipCountry: any[] = zip.replace(',', '').split(' ')
+			zip = `${zipCountry[0]},country:${zipCountry[1]}`;
+		}
 		let safeZip = encodeURIComponent(zip);
 		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=&components=postal_code:${safeZip}&sensor=false`;
 		return this.http.get(googleApiUrl).map(this.extractData);

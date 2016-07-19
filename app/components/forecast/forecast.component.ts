@@ -14,6 +14,7 @@ import {PositioningService, ISelectedCard, cardNames } from '../../services/posi
 import * as gestures from 'ui/gestures';
 import {StackLayout} from 'ui/layouts/stack-layout';
 import {Observable} from 'rxjs/observable';
+import {Subscription} from 'rxjs/subscription';
 import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
 import {Label} from 'ui/label';
@@ -22,7 +23,7 @@ import {PullToRefresh} from 'nativescript-pulltorefresh';
 import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 
-registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
+// registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 
 declare const android: any;
 
@@ -70,6 +71,7 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	public dimensions: IDimensions;
 	public forecastDate: number;
 	private placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
+	private subsciption: Subscription;
 
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
 
@@ -109,14 +111,18 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		}, 1500);
 	}
 
+	ngOnDestroy(): void{
+		this.subsciption.unsubscribe();
+	}
+
 	refreshForecast(pullRefresh?: any): void {
 		SwissArmyKnife.actionBarHideBackButton();
 
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
-			this.router.navigate(['/location']);
+			setTimeout(() => this.router.navigate(['/location']), 1000)
 		}
-		this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+		this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
 			setTimeout(() => {
 				if ((<any>this.morning).selected === false) {
 					(<any>this.morning).selectCard();
