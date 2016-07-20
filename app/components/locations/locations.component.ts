@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, NgZone  } from '@angular/core';
 import {SwissArmyKnife, IScreenHeight} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 import {ILocationInfo, LocationService } from '../../services/location.service';
 import { ActivityIndicator } from 'ui/activity-indicator';
@@ -12,11 +12,14 @@ import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
 import {View} from 'ui/core/view';
 import {TextField} from 'ui/text-field';
+import {Observable} from 'rxjs/observable';
+import {Subscription} from 'rxjs/subscription';
 import * as app from 'application';
 import {Color} from 'color';
 import * as Platform from 'platform';
 import * as Dialogs from 'ui/dialogs';
 import * as applicationSettings from 'application-settings';
+
 
 @Component({
 	selector: 'locations-component',
@@ -25,79 +28,24 @@ import * as applicationSettings from 'application-settings';
 			<!-- <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"></NavigationButton> -->
 		</ActionBar>
 		<DockLayout #locationCard class="location-card" [height]="height" [width]="width">
-			<Label dock="top" text="Enter your postal code" textWrap="true" class="header"></Label>
+			<Label dock="top" text="Enter your postal code " textWrap="true" class="header"></Label>
 
-			<TextField dock="top" #postalCode hint="Postal Code" class="postal-code" text=""></TextField>
+			<TextField dock="top" #postalCode hint="Postal Code and Country" class="postal-code" text=""></TextField>
 			<Label dock="top" text="Lookup" class="morning lookupButton" (touch)="lookUpPostalCode($event)" textWrap="true"></Label>
 
 			<StackLayout dock="bottom" >
-				<Label #result text="" class="result" textWrap="true"></Label>
-
+				<Label #result [text]="location.name" class="result" textWrap="true"></Label>
 				<GridLayout #celsiusWrap rows="*" columns="75,*" class="celsius-wrap">
 					<Label row="0" col="0" text="Celsius" class="celsius" textWrap="true"></Label>
 					<Switch  row="0" col="1" #celsiusSwitch horizontalAlignment="right" ></Switch>
 				</GridLayout>
 				<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
 			</StackLayout>
+
 		</DockLayout>
 		`,
-	styleUrls: ['theme-natural.css'],
+	styleUrls: ['theme-natural.css', 'components/locations/locations.component.css'],
 	pipes: [TNSFontIconPipe],
-	styles: [`
-
-		.location-card{
-			border-radius:15;
-			height:60%;
-			width:80%;
-			margin:0 10% 10% 10%;
-			padding:5px 15px;
-			background-color: #b1695a;
-		}
-		.location-card Label, .location-card TextField{
-			color:#fff;
-		}
-		.header{
-			text-transform:uppercase;
-			padding-top:5;
-			font-size:18;
-
-		}
-		.lookupButton{
-			border-radius:15;
-			margin:5 15%;
-			width:70%;
-			text-align:center;
-			color:#fff;
-			opacity:0.8;
-			font-weight:bold;
-			text-transform:uppercase;
-			letter-spacing:.5;
-			padding:5 25 5;
-		}
-
-		.result{
-			text-transform:uppercase;
-			font-size:20;
-			text-align:center;
-		}
-		.celsius-wrap{
-			margin:8 15%;
-			width:70%;
-			padding:0 5;
-			height:25;
-		}
-		.celsius{
-			color:#fff;
-			text-align:left;
-			font-size:20;
-		}
-		.postal-code{
-			margin:10 0;
-			color:#fff;
-			text-align:center;
-			font-size:20;
-		}
-	`],
 })
 export class LocationsComponent {
 	@ViewChild('postalCode') postalCodeTxt: ElementRef;
@@ -108,13 +56,14 @@ export class LocationsComponent {
 	@ViewChild('celsiusWrap') celsiusWrap: ElementRef;
 
 	public location: ILocationInfo;
+	public locationsSubscription: Subscription;
 	public leftOffset: number;
 	public topOffset: number;
 	public height: number;
 	public width: number;
 	private pageDimensions: IScreenHeight;
 
-	constructor(private router: Router, private locationService: LocationService) {
+	constructor(private router: Router, private locationService: LocationService, private ref: ChangeDetectorRef) {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
 		this.pageDimensions = SwissArmyKnife.getScreenHeight();
@@ -122,15 +71,16 @@ export class LocationsComponent {
 		this.height = (this.pageDimensions.portrait - this.pageDimensions.androidStatusBar - this.pageDimensions.androidNavBar) / 1.75;
 		this.topOffset = this.height;
 
-		this.width = ((this.pageDimensions.landscape / 5) * 4);
-		this.height = ((this.pageDimensions.portrait / 5) * 3);
+		this.width = ((this.pageDimensions.landscape));// / 5) * 5);
+		this.height = ((this.pageDimensions.portrait));// / 5) * 4.5);
+
 	}
 
 	lookUpPostalCode(e: gestures.TouchGestureEventData) {
 		if (e.action === 'up') {
 			(<Label>e.object).opacity = 1;
 
-			let postalCode: string = this.postalCodeTxt.nativeElement.text;
+			let postalCode: string = this.postalCodeTxt.nativeElement.text.trim();
 			if (postalCode == null || postalCode === '') {
 				Dialogs.alert({
 					title: 'Oops',
@@ -141,10 +91,12 @@ export class LocationsComponent {
 			}
 
 			this.postalCodeTxt.nativeElement.dismissSoftInput();
-			this.locationService.getLocationInfo(postalCode).subscribe((value: ILocationInfo) => {
-				// let value = values[0];
-				//console.log(JSON.stringify(values));
-				if (value.name === 'none') {
+
+			this.locationsSubscription = this.locationService.getLocationInfo(postalCode).subscribe((values: ILocationInfo[]) => {
+				let value = values[0];
+				//this.ref.detectChanges();
+
+				if (!value || value.name === 'none') {
 					Dialogs.alert({
 						title: 'Oops',
 						message: 'No locations found with the postal code ' + postalCode,
@@ -164,8 +116,8 @@ export class LocationsComponent {
 						}
 					);
 				}
-
 			});
+
 		} else if (e.action === 'down') {
 			(<Label>e.object).opacity = 0.5;
 		}
@@ -199,12 +151,17 @@ export class LocationsComponent {
 		let page = <Page>topmost().currentPage;
 		// page.actionBarHidden = true;
 		// SwissArmyKnife.actionBarHideBackButton();
+		//this.locations$ = new Observable<ILocationInfo[]>().startWith
+		this.ref.detectChanges();
+	}
 
-
+	ngOnDestroyed(): void {
+		this.locationsSubscription.unsubscribe();
 	}
 
 
 	ngAfterViewInit() {
+		this.ref.detectChanges();
 		this.celsiusSwitch.nativeElement.checked = false;
 
 		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
@@ -234,5 +191,6 @@ export class LocationsComponent {
 				curve: AnimationCurve.easeOut
 			});
 		}, 0);
+
 	}
 }

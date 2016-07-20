@@ -14,6 +14,7 @@ import {PositioningService, ISelectedCard, cardNames } from '../../services/posi
 import * as gestures from 'ui/gestures';
 import {StackLayout} from 'ui/layouts/stack-layout';
 import {Observable} from 'rxjs/observable';
+import {Subscription} from 'rxjs/subscription';
 import {topmost} from 'ui/frame';
 import {Page} from 'ui/page';
 import {Label} from 'ui/label';
@@ -40,7 +41,7 @@ declare const android: any;
 				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
-		<!--<PullToRefresh (refresh)="refreshPage($event)">-->
+		<PullToRefresh (refresh)="refreshPage($event)">
 			<StackLayout>
 				<AbsoluteLayout id="slider-container">
 					<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
@@ -49,7 +50,7 @@ declare const android: any;
 					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 				</AbsoluteLayout>
 			</StackLayout>
-		<!--</PullToRefresh> -->
+		</PullToRefresh>
 	</GridLayout>
 `,
 	directives: [ForecastCardComponent],
@@ -70,6 +71,7 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	public dimensions: IDimensions;
 	public forecastDate: number;
 	private placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
+	private subsciption: Subscription;
 
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
 
@@ -109,14 +111,18 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		}, 1500);
 	}
 
+	ngOnDestroy(): void{
+		this.subsciption.unsubscribe();
+	}
+
 	refreshForecast(pullRefresh?: any): void {
 		SwissArmyKnife.actionBarHideBackButton();
 
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
-			this.router.navigate(['/location']);
+			setTimeout(() => this.router.navigate(['/location']), 1000)
 		}
-		this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+		this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
 			setTimeout(() => {
 				if ((<any>this.morning).selected === false) {
 					(<any>this.morning).selectCard();
