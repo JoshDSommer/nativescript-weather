@@ -23,7 +23,7 @@ import {PullToRefresh} from 'nativescript-pulltorefresh';
 import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 
-// registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
+registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 
 declare const android: any;
 
@@ -41,7 +41,7 @@ declare const android: any;
 				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
 			</StackLayout>
 		</ActionBar>
-		<!--<PullToRefresh (refresh)="refreshPage($event)">-->
+		<PullToRefresh (refresh)="refreshPage($event)">
 			<StackLayout>
 				<AbsoluteLayout id="slider-container">
 					<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
@@ -50,7 +50,7 @@ declare const android: any;
 					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 				</AbsoluteLayout>
 			</StackLayout>
-		<!--</PullToRefresh> -->
+		</PullToRefresh>
 	</GridLayout>
 `,
 	directives: [ForecastCardComponent],

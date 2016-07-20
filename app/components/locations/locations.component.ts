@@ -42,7 +42,6 @@ import * as applicationSettings from 'application-settings';
 				<Label #saveButton text="Save this location?" class="morning lookupButton save-button" (touch)="saveLocation($event)" textWrap="true"></Label>
 			</StackLayout>
 
-
 		</DockLayout>
 		`,
 	styleUrls: ['theme-natural.css', 'components/locations/locations.component.css'],
@@ -72,9 +71,8 @@ export class LocationsComponent {
 		this.height = (this.pageDimensions.portrait - this.pageDimensions.androidStatusBar - this.pageDimensions.androidNavBar) / 1.75;
 		this.topOffset = this.height;
 
-		this.width = ((this.pageDimensions.landscape / 5) * 4);
-		this.height = ((this.pageDimensions.portrait / 5) * 2.5);
-
+		this.width = ((this.pageDimensions.landscape));// / 5) * 5);
+		this.height = ((this.pageDimensions.portrait));// / 5) * 4.5);
 
 	}
 
@@ -96,9 +94,9 @@ export class LocationsComponent {
 
 			this.locationsSubscription = this.locationService.getLocationInfo(postalCode).subscribe((values: ILocationInfo[]) => {
 				let value = values[0];
-				this.ref.detectChanges();
+				//this.ref.detectChanges();
 
-				if (value.name === 'none') {
+				if (!value || value.name === 'none') {
 					Dialogs.alert({
 						title: 'Oops',
 						message: 'No locations found with the postal code ' + postalCode,
@@ -154,6 +152,7 @@ export class LocationsComponent {
 		// page.actionBarHidden = true;
 		// SwissArmyKnife.actionBarHideBackButton();
 		//this.locations$ = new Observable<ILocationInfo[]>().startWith
+		this.ref.detectChanges();
 	}
 
 	ngOnDestroyed(): void {
@@ -162,6 +161,7 @@ export class LocationsComponent {
 
 
 	ngAfterViewInit() {
+		this.ref.detectChanges();
 		this.celsiusSwitch.nativeElement.checked = false;
 
 		let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
