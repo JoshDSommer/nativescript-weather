@@ -9,7 +9,9 @@
 	font-size: 25;
 }
 
-
+.time{
+	letter-spacing:.8;
+}
 
 Page, .action-bar, #container-wrapper{
     background-color:#8ba892;
@@ -44,3 +46,17 @@ Page, .action-bar, #container-wrapper{
 	.night-icon{
 		color:#d89864;
 	}
+
+.sad-face{
+	font-size: 85;
+	margin:10 0 25 0;;
+	color: #fff;
+	text-align:center;
+
+}
+
+.error-text{
+	color:#fff;
+	font-size: 25;
+	text-align:center;
+}

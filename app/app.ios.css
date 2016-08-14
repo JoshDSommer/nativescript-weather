@@ -46,7 +46,19 @@ Page, .action-bar, #container-wrapper{
 	}
 
 
+.sad-face{
+	font-size: 85;
+	margin:10 0 25 0;
+	color: #fff;
+	text-align:center;
 
+}
+
+.error-text{
+	color:#fff;
+	font-size: 25;
+	text-align:center;
+}
 .time{
 	color:#fff;
 	opacity:0.4;
@@ -54,7 +66,7 @@ Page, .action-bar, #container-wrapper{
 	font-size:18;
 	horizontal-align:left;
 	text-transform:uppercase;
-	letter-spacing:.8;
+	letter-spacing:.4;
 }
 
 .summary{
