@@ -50,6 +50,13 @@ declare const android: any;
 					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 				</AbsoluteLayout>
 			</StackLayout>
+					<StackLayout [visibility]="isConnectingVisible ? 'visible' : 'collapse'" >
+				<Label class="error-text" text="Connecting..." textWrap="true"></Label>
+			</StackLayout>
+			<StackLayout [visibility]="isErrorVisible ? 'visible' : 'collapse'" >
+				<Label class="sad-face" text=":(" textWrap="true"></Label>
+				<Label class="error-text" text="Error connecting to forecast service" textWrap="true"></Label>
+			</StackLayout>
 		</PullToRefresh>
 	</GridLayout>
 `,
@@ -57,15 +64,15 @@ declare const android: any;
 	providers: [PageDimensions, PositioningService],
 	pipes: [TNSFontIconPipe],
 	styleUrls: ['theme-natural.css', 'app.css'],
-	styles: [`
-
-	`]
 })
 export class ForecastComponent implements AfterViewInit, OnInit {
 	@ViewChild('morning') public morning: ElementRef;
 	@ViewChild('day') public day: ElementRef;
 	@ViewChild('evening') public evening: ElementRef;
 	@ViewChild('night') public night: ElementRef;
+
+	public isErrorVisible: boolean;
+	public isConnectingVisible: boolean;
 	public forecast: IForecast;
 	public cityTemp: string;
 	public dimensions: IDimensions;
@@ -74,7 +81,8 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	private subsciption: Subscription;
 
 	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
-
+		this.isErrorVisible = false;
+		this.isConnectingVisible = true;
 		this.forecast = {
 			temperature: 0,
 			location: 'Refreshing',
@@ -97,21 +105,15 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		console.log("page refresh -> go");
 		let pullRefresh = args.object;
 		this.cityTemp = `Refreshing Forecast`;
-		// this.forecast = {
-		// 	temperature: 0,
-		// 	location: 'Refreshing',
-		// 	morning: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'morning', 0),
-		// 	day: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'day', 0),
-		// 	evening: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'evening', 0),
-		// 	night: this.forecastIOService.extractForecastCardInfo(this.placeholderInfo, 'night', 0),
-		// };
 		this.ref.detectChanges();
 		setTimeout(() => {
 			this.refreshForecast(pullRefresh);
 		}, 1500);
 	}
 
-	ngOnDestroy(): void{
+	ngOnDestroy(): void {
+		this.isErrorVisible = false;
+		this.isConnectingVisible = true;
 		this.subsciption.unsubscribe();
 	}
 
@@ -122,7 +124,10 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		if (currentLocation == null) {
 			setTimeout(() => this.router.navigate(['/location']), 1000)
 		}
+		this.isConnectingVisible = true;
 		this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+			this.isErrorVisible = false;
+			this.isConnectingVisible = false;
 			setTimeout(() => {
 				if ((<any>this.morning).selected === false) {
 					(<any>this.morning).selectCard();
@@ -139,6 +144,9 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 			if (pullRefresh != null) {
 				pullRefresh.refreshing = false;
 			}
+		}, (error) => {
+			this.isErrorVisible = true;
+			this.cityTemp = 'Set your location';
 		});
 	}
 
@@ -162,6 +170,8 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		}
 	}
 	ngOnInit() {
+		this.isErrorVisible = false;
+		this.isConnectingVisible = true;
 	}
 	ngAfterViewInit(): void {
 	}
