@@ -31,8 +31,7 @@ declare const android: any;
 	],
 	directives: [ForecastComponent, LocationsComponent, NgIf, NS_ROUTER_DIRECTIVES],
 	providers: [ForecastIOService, LocationService],
-	pipes: [TNSFontIconPipe],
-	encapsulation: ViewEncapsulation.Emulated
+	pipes: [TNSFontIconPipe]
 })
 export class WeatherAppComponent {
 	public cityTemp: string;
@@ -42,17 +41,7 @@ export class WeatherAppComponent {
 	@ViewChild('wrapper') stackLayout: ElementRef;
 
 	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
-		// this.forecast = false;
-		// let page = <Page>topmost().currentPage;
-		// page.actionBarHidden = true;
-		//	themes.applyTheme('theme-natural.css');
-		//page.style.paddingTop = 50;// SwissArmyKnife.getScreenHeight().androidStatusBar;
-		// locationService.getLogLat().then(() => {
-		// 	locationService.getCityName().subscribe((value: string) => {
-		// 		this.cityTemp = value;
 
-		// 	});
-		// });
 	}
 
 	public getStatusBarHeight() {

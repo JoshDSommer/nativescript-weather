@@ -72,23 +72,23 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		//only applying this on android.
-		if (app.android) {
-			const screen = Platform.screen;
-			const scale = screen.mainScreen.widthDIPs;
+		//	if (app.android) {
+		const screen = Platform.screen;
+		const scale = screen.mainScreen.widthDIPs;
 
-			console.log('DPI - ' + scale);
+		console.log('DPI - ' + scale);
 
-			if (scale >= 600) {
-				themes.applyTheme('app.minWH600.css');
-			} else if (scale >= 400) {
-				themes.applyTheme('app.minWH480.css');
-			} else if (scale >= 320) {
-				themes.applyTheme('app.minWH320.css');
-			} else {
-				themes.applyTheme('app.minWHdefault.css');
-			}
-
+		if (scale >= 600) {
+			themes.applyTheme('app.minWH600.css');
+		} else if (scale >= 400) {
+			themes.applyTheme('app.minWH480.css');
+		} else if (scale >= 320) {
+			themes.applyTheme('app.minWH320.css');
+		} else {
+			themes.applyTheme('app.minWHdefault.css');
 		}
+
+		//	}
 	}
 
 	ngAfterViewInit() {
@@ -123,20 +123,21 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 
 	selectCard(): void {
 		this.state === CardState.visible;
-
-		this.positioning.selectedCard.next(
-			{
-				card: this.card.nativeElement,
-				cardName: cardNames[this.forecast.timeOfDay.toLowerCase()],
-				hideForecast: this.hideForecast,
-				slideforecastIconDownAway: this.slideforecastIconDownAway.bind(this),
-				slideforecastIconDownIn: this.slideforecastIconDownIn.bind(this),
-				slideforecastIconUpAway: this.slideforecastIconUpAway.bind(this),
-				slideforecastIconUpIn: this.slideforecastIconUpIn.bind(this),
-				setSelected: null,
-			});
-		this.showForecast();
-		this.selected = true;
+		if (this.card) {
+			this.positioning.selectedCard.next(
+				{
+					card: this.card.nativeElement,
+					cardName: cardNames[this.forecast.timeOfDay.toLowerCase()],
+					hideForecast: this.hideForecast,
+					slideforecastIconDownAway: this.slideforecastIconDownAway.bind(this),
+					slideforecastIconDownIn: this.slideforecastIconDownIn.bind(this),
+					slideforecastIconUpAway: this.slideforecastIconUpAway.bind(this),
+					slideforecastIconUpIn: this.slideforecastIconUpIn.bind(this),
+					setSelected: null,
+				});
+			this.showForecast();
+			this.selected = true;
+		}
 	}
 
 	cardTapEvent(e: gestures.TouchGestureEventData) {
@@ -178,19 +179,19 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 
 	public showForecast() {
 		let forecast = <StackLayout>this.forecastInfo.nativeElement;
-		let previousCard = this.positioning.previousCard;
-		forecast.animate({
-			translate: { x: 0, y: 0 },
-			duration: 300,
-			curve: AnimationCurve.easeIn,
-			delay: 400,
-		}).then(() => {
-			if (previousCard != null)
-				previousCard.hideForecast();
-			forecast.translateY = 0; //sets the ending position to 0 as to prevent ios from reverting
-		});
-		//icon.visibility = 'visible';
-
+		if (forecast) {
+			let previousCard = this.positioning.previousCard;
+			forecast.animate({
+				translate: { x: 0, y: 0 },
+				duration: 300,
+				curve: AnimationCurve.easeIn,
+				delay: 400,
+			}).then(() => {
+				if (previousCard != null)
+					previousCard.hideForecast();
+				forecast.translateY = 0; //sets the ending position to 0 as to prevent ios from reverting
+			});
+		}
 	}
 	public hideForecast() {
 		let forecast = <StackLayout>this.forecastInfo.nativeElement;

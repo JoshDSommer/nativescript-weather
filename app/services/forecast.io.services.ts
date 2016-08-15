@@ -65,9 +65,9 @@ export class ForecastIOService {
 		if (applicationSettings.getBoolean('celsius')) {
 			forecastURL = forecastURL + '?units=si';
 		}
-		return this.http.get(forecastURL).map(this.extractData);
+		return this.http.get(forecastURL)
+			.map(this.extractData);
 	}
-
 
 
 	private extractData(res: Response): IForecast {
@@ -141,51 +141,6 @@ export class ForecastIOService {
 			humidity: Math.floor(daily[3].humidity * 100)
 		};
 
-		// forecast.morning = {
-		// 			timeOfDay: 'morning',
-		// 			icon: 'wi-forecast-io-' + daily[0].icon,
-		// 			temperature: daily[0].temperature,
-		// 			temperatureDiff: Math.floor(daily[0].temperature - currentTemp),
-		// 			windSpeed: daily[0].windSpeed,
-		// 			windBearing: daily[0].windBearing,
-		// 			summary: daily[0].summary,
-		// 			humidity: daily[0].humidity
-		// 		};
-		// 		forecast.day = {
-		// 			timeOfDay: 'day',
-		// 			icon: 'wi-forecast-io-' + daily[1].icon,
-		// 			temperature: daily[1].temperature,
-		// 			temperatureDiff: Math.floor(daily[1].temperature - currentTemp),
-		// 			windSpeed: daily[1].windSpeed,
-		// 			windBearing: daily[1].windBearing,
-		// 			summary: daily[1].summary,
-		// 			humidity: daily[1].humidity
-		// 		};
-		// 		forecast.evening = {
-		// 			timeOfDay: 'evening',
-		// 			icon: 'wi-forecast-io-' + daily[2].icon,
-		// 			temperature: daily[2].temperature,
-		// 			temperatureDiff: Math.floor(daily[2].temperature - currentTemp),
-		// 			windSpeed: daily[2].windSpeed,
-		// 			windBearing: daily[2].windBearing,
-		// 			summary: daily[2].summary,
-		// 			humidity: daily[2].humidity
-		// 		};
-		// 		forecast.night = {
-		// 			timeOfDay: 'night',
-		// 			icon: 'wi-forecast-io-' + daily[3].icon,
-		// 			temperature: daily[3].temperature,
-		// 			temperatureDiff: Math.floor(daily[3].temperature - currentTemp),
-		// 			windSpeed: daily[3].windSpeed,
-		// 			windBearing: daily[3].windBearing,
-		// 			summary: daily[3].summary,
-		// 			humidity: daily[3].humidity
-		// 		};
-
-		//extractForecastCardInfo(daily[0], 'morning', 0);
-		// forecast.day = extractForecastCardInfo(daily[1], 'day',  0);
-		// forecast.evening = extractForecastCardInfo(daily[2], 'evening',  0);
-		// forecast.night = extractForecastCardInfo(daily[3], 'night', 0);
 		return forecast;
 	}
 
