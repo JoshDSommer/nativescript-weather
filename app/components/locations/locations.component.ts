@@ -146,5 +146,8 @@ export class LocationsComponent {
 			this.displayLocation(this.location);
 		}
 
+		this.isResultsVisible = false;
+		this.ref.detectChanges();
+
 	}
 }

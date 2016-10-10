@@ -1,6 +1,4 @@
 
-/// <reference path="../../../node_modules/nativescript-pulltorefresh/pulltorefresh.d.ts" />
-
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit  } from "@angular/core";
 import * as app from 'application';
 import * as Platform from 'platform';
@@ -22,7 +20,6 @@ import {Color} from 'color';
 import {PullToRefresh} from 'nativescript-pulltorefresh';
 import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-
 registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 
 declare const android: any;
@@ -38,11 +35,11 @@ declare const android: any;
 			<StackLayout orientation="horizontal">
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
 				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021"></Label>
+				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021" [visibility]="!isErrorVisible ? 'visible' : 'collapsed'"></Label>
 			</StackLayout>
 		</ActionBar>
 		<PullToRefresh (refresh)="refreshPage($event)">
-			<StackLayout>
+			<StackLayout [visibility]="!isErrorVisible && !isConnectingVisible ? 'visible' : 'collapse'">
 				<AbsoluteLayout id="slider-container">
 					<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
 					<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
@@ -50,14 +47,11 @@ declare const android: any;
 					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
 				</AbsoluteLayout>
 			</StackLayout>
-					<StackLayout [visibility]="isConnectingVisible ? 'visible' : 'collapse'" >
-				<Label class="error-text" text="Connecting..." textWrap="true"></Label>
-			</StackLayout>
-			<StackLayout [visibility]="isErrorVisible ? 'visible' : 'collapse'" >
-				<Label class="sad-face" text=":(" textWrap="true"></Label>
-				<Label class="error-text" text="Error connecting to forecast service" textWrap="true"></Label>
-			</StackLayout>
 		</PullToRefresh>
+		<StackLayout [visibility]="isConnectingVisible ? 'visible' : 'collapse'" >
+			<Label class="error-text" text="Connecting..." textWrap="true"></Label>
+		</StackLayout>
+
 	</GridLayout>
 `,
 	directives: [ForecastCardComponent],
@@ -145,6 +139,7 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 				pullRefresh.refreshing = false;
 			}
 		}, (error) => {
+			console.log('Error !!!!');
 			this.isErrorVisible = true;
 			this.cityTemp = 'Set your location';
 		});

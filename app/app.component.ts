@@ -1,8 +1,6 @@
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import {NgIf } from '@angular/common';
 import {RouterConfig} from "@angular/router";
-import {ForecastComponent} from './components/forecast/forecast.component';
-import {LocationsComponent} from './components/locations/locations.component';
 import {topmost} from 'ui/frame';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 import {Page} from 'ui/page';
@@ -29,9 +27,8 @@ declare const android: any;
 			}
 		`
 	],
-	directives: [ForecastComponent, LocationsComponent, NgIf, NS_ROUTER_DIRECTIVES],
-	providers: [ForecastIOService, LocationService],
-	pipes: [TNSFontIconPipe]
+
+	providers: [ForecastIOService, LocationService]
 })
 export class WeatherAppComponent {
 	public cityTemp: string;
@@ -61,7 +58,8 @@ export class WeatherAppComponent {
 
 var routes: RouterConfig = [
 	{ path: "", component: ForecastComponent },
-	{ path: "location", component: LocationsComponent }
+	{ path: "location", component: LocationsComponent },
+	{ path: "network", component: NetworkIssueComponent },
 ];
 
 export var APP_ROUTES = [
