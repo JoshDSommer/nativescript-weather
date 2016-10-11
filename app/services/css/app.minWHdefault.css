@@ -1,20 +1,15 @@
-.wi {
-  font-family: 'Weather Icons', weathericons-regular-webfont;
-    font-size:140;
-}
 .time{
 	color:#fff;
 	opacity:0.4;
 	font-weight:bold;
-	font-size:35;
+	font-size:18;
 	horizontal-align:left;
 	text-transform:uppercase;
+	letter-spacing:.8;
 }
-.forecast-info-text{
-	margin-left: 40;
-}
+
 .summary{
-	width:270;
+	width:140;
 }
 
 .forecast{
@@ -24,18 +19,18 @@
 .info-text{
 	color:#fff;
 	horizontal-align:left;
-	font-size:24;
+	font-size:14;
 	font-weight: bold;
 }
 
 .wind{
-	margin-top: 15;
+	margin-top: 12;
 }
 
 .degrees{
-	font-size:45;
-	color:#fff;
+	font-size:25;
 	font-weight:normal;
+	color:#fff;
 }
 
 .nav-bar{
@@ -47,5 +42,6 @@
 	margin-bottom:13;
 }
 .location-text{
-	font-size: 30;
+	font-size: 20;
 }
+

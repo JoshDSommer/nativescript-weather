@@ -1,8 +1,6 @@
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import {NgIf } from '@angular/common';
 import {RouterConfig} from "@angular/router";
-import {ForecastComponent} from './components/forecast/forecast.component';
-import {LocationsComponent} from './components/locations/locations.component';
 import {topmost} from 'ui/frame';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 import {Page} from 'ui/page';
@@ -29,10 +27,8 @@ declare const android: any;
 			}
 		`
 	],
-	directives: [ForecastComponent, LocationsComponent, NgIf, NS_ROUTER_DIRECTIVES],
-	providers: [ForecastIOService, LocationService],
-	pipes: [TNSFontIconPipe],
-	encapsulation: ViewEncapsulation.Emulated
+
+	providers: [ForecastIOService, LocationService]
 })
 export class WeatherAppComponent {
 	public cityTemp: string;
@@ -42,17 +38,7 @@ export class WeatherAppComponent {
 	@ViewChild('wrapper') stackLayout: ElementRef;
 
 	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
-		// this.forecast = false;
-		// let page = <Page>topmost().currentPage;
-		// page.actionBarHidden = true;
-		//	themes.applyTheme('theme-natural.css');
-		//page.style.paddingTop = 50;// SwissArmyKnife.getScreenHeight().androidStatusBar;
-		// locationService.getLogLat().then(() => {
-		// 	locationService.getCityName().subscribe((value: string) => {
-		// 		this.cityTemp = value;
 
-		// 	});
-		// });
 	}
 
 	public getStatusBarHeight() {
@@ -72,7 +58,8 @@ export class WeatherAppComponent {
 
 var routes: RouterConfig = [
 	{ path: "", component: ForecastComponent },
-	{ path: "location", component: LocationsComponent }
+	{ path: "location", component: LocationsComponent },
+	{ path: "network", component: NetworkIssueComponent },
 ];
 
 export var APP_ROUTES = [

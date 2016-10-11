@@ -3,7 +3,6 @@ import { Http, Response } from '@angular/http';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 import {Observable} from 'rxjs/observable';
 import * as applicationSettings from 'application-settings';
-import * as geolocation from 'nativescript-geolocation';
 
 export interface ILocationInfo {
 	name: string;
@@ -21,12 +20,12 @@ export class LocationService {
 		this.current = <any>{};
 	}
 
-	getLogLat(): Promise<ILocationInfo> {
-		return geolocation.getCurrentLocation((value: geolocation.Location) => {
-			this.current.lat = value.latitude.toString();
-			this.current.lng = value.longitude.toString();
-		}).then(() => this.current);
-	}
+	// getLogLat(): Promise<ILocationInfo> {
+	// 	return geolocation.getCurrentLocation((value: geolocation.Location) => {
+	// 		this.current.lat = value.latitude.toString();
+	// 		this.current.lng = value.longitude.toString();
+	// 	}).then(() => this.current);
+	// }
 
 	getStoredLocations(): ILocationInfo {
 		let locationJSON = applicationSettings.getString('locations');
