@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit  } from "@angular/core";
-=======
 import { Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
->>>>>>> 2
 import * as app from 'application';
 import * as Platform from 'platform';
 import { Router } from '@angular/router';
@@ -18,12 +14,9 @@ import { Label } from 'ui/label';
 import { Color } from 'color';
 import { PullToRefresh } from 'nativescript-pulltorefresh';
 import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
-<<<<<<< HEAD
-import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-=======
+
 import { SwissArmyKnife } from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 
->>>>>>> 2
 registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 declare const android: any;
 
@@ -31,39 +24,7 @@ declare const android: any;
 
 @Component({
 	selector: 'forecast-component',
-<<<<<<< HEAD
-	template: `
-	<GridLayout>
-		<ActionBar title="" class="action-bar">
-			<NavigationButton visibility="collapsed"></NavigationButton>
-			<StackLayout orientation="horizontal">
-				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa" text="\uf041" ></Label>
-				<Label (touch)="gotoLocations($event)" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"  [text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
-				<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" text="\uf021" [visibility]="!isErrorVisible ? 'visible' : 'collapsed'"></Label>
-			</StackLayout>
-		</ActionBar>
-		<PullToRefresh (refresh)="refreshPage($event)">
-			<StackLayout [visibility]="!isErrorVisible && !isConnectingVisible ? 'visible' : 'collapse'">
-				<AbsoluteLayout id="slider-container">
-					<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
-					<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
-					<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
-					<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
-				</AbsoluteLayout>
-			</StackLayout>
-		</PullToRefresh>
-		<StackLayout [visibility]="isConnectingVisible ? 'visible' : 'collapse'" >
-			<Label class="error-text" text="Connecting..." textWrap="true"></Label>
-		</StackLayout>
-
-	</GridLayout>
-`,
-	directives: [ForecastCardComponent],
-	providers: [PageDimensions, PositioningService],
-	pipes: [TNSFontIconPipe],
-=======
 	templateUrl: './components/forecast/forecast.component.html',
->>>>>>> 2
 	styleUrls: ['theme-natural.css', 'app.css'],
 })
 export class ForecastComponent implements AfterViewInit, OnInit {
@@ -169,28 +130,9 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 				if (pullRefresh != null) {
 					pullRefresh.refreshing = false;
 				}
-<<<<<<< HEAD
-			}, 100);
-			this.forecast.location = value.location;
-			this.forecast.temperature = value.temperature;
-			this.cityTemp = `${currentLocation.name} - ${this.forecast.temperature}\u00B0`;
-			this.forecast.day = value.day;
-			this.forecast.evening = value.evening;
-			this.forecast.morning = value.morning;
-			this.forecast.night = value.night;
-			this.ref.detectChanges();
-			if (pullRefresh != null) {
-				pullRefresh.refreshing = false;
-			}
-		}, (error) => {
-			console.log('Error !!!!');
-			this.isErrorVisible = true;
-			this.cityTemp = 'Set your location';
-		});
-=======
+
 			});
 		}
->>>>>>> 2
 	}
 
 	refresh(e: any): void {
