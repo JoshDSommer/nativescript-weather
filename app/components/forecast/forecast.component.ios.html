@@ -1,0 +1,21 @@
+<GridLayout>
+	<ActionBar title="" class="action-bar">
+		<NavigationButton visibility="collapsed"></NavigationButton>
+		<StackLayout orientation="horizontal">
+			<Label [nsRouterLink]="['/location']" pageTransition="slideTop" verticalAlignment="bottom" paddingLeft="10" width="25" class="fa"
+				[text]="'\uf041'"></Label>
+			<Label [nsRouterLink]="['/location']" pageTransition="slideTop" verticalAlignment="bottom" width="80%" textAlign="left" class="location-text"
+				[text]="cityTemp" horizontalAlign="left" textWrap="true"></Label>
+			<Label (touch)="refreshPage($event)" verticalAlignment="bottom" width="30" class="fa" [text]="'\uf021'" [visibility]="!isErrorVisible ? 'visible' : 'collapsed'"></Label>
+		</StackLayout>
+	</ActionBar>
+	<StackLayout>
+		<AbsoluteLayout id="slider-container">
+			<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
+			<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
+			<forecast-card [state]=0 [forecast]="forecast.evening" [height]="dimensions.cardSize" [top]="dimensions.eveningOffset" #evening></forecast-card>
+			<forecast-card [state]=1 [forecast]="forecast.night" [height]="dimensions.cardSize" [top]="dimensions.nightOffset" #night></forecast-card>
+		</AbsoluteLayout>
+	</StackLayout>
+
+</GridLayout>

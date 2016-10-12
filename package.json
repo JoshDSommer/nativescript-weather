@@ -4,7 +4,13 @@
   "readme": "NativeScript Application",
   "repository": "<fill-your-repository-here>",
   "nativescript": {
-    "id": "org.nativescript.nativescriptweather"
+    "id": "org.joshdsommer.weathercards",
+    "tns-ios": {
+      "version": "2.3.0"
+    },
+    "tns-android": {
+      "version": "2.3.0"
+    }
   },
   "dependencies": {
     "@angular/common": "2.0.1",
@@ -18,9 +24,17 @@
     "@angular/router": "3.0.1",
     "nativescript-angular": "1.0.1",
     "reflect-metadata": "^0.1.8",
-    "tns-core-modules": "2.3.0"
+    "tns-core-modules": "2.3.0",
+    "nativescript-ng2-fonticon": "1.2.6",
+    "nativescript-pulltorefresh": "1.1.8",
+    "nativescript-themes": "1.1.0",
+    "nativescript-swiss-army-knife": "1.0.71"
   },
   "devDependencies": {
+    "babel-traverse": "6.16.0",
+    "babel-types": "6.16.0",
+    "babylon": "6.11.4",
+    "lazy": "1.0.11",
     "nativescript-dev-typescript": "^0.3.2",
     "typescript": "^2.0.3",
     "zone.js": "^0.6.21"

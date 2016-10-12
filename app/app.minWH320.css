@@ -1,0 +1,46 @@
+.time{
+	color:#fff;
+	opacity:0.4;
+	font-weight:bold;
+	font-size:18;
+	horizontal-align:left;
+	text-transform:uppercase;
+}
+
+.summary{
+	width:150;
+}
+
+.forecast{
+	margin-top: 5;
+}
+
+.info-text{
+	color:#fff;
+	horizontal-align:left;
+	font-size:14;
+	font-weight: bold;
+}
+
+.wind{
+	margin-top: 12;
+}
+
+.degrees{
+	font-size:25;
+	font-weight:normal;
+	color:#fff;
+}
+
+.nav-bar{
+	height:50;
+	width:100%;
+}
+.nav-bar Label{
+	margin-left:20;
+	margin-bottom:13;
+}
+.location-text{
+	font-size: 20;
+}
+

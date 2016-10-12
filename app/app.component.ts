@@ -1,21 +1,35 @@
-import {Component} from "@angular/core";
+import { Component } from "@angular/core";
+import { ForecastIOService, LocationService, ILocationInfo, PageDimensions, PositioningService } from './services';
+import { SwissArmyKnife } from 'nativescript-swiss-army-knife';
+import { TNSFontIconService } from 'nativescript-ng2-fonticon';
+declare const android: any;
 
 @Component({
-    selector: "my-app",
+    selector: "weather-app",
     templateUrl: "app.component.html",
-})
-export class AppComponent {
-    public counter: number = 16;
+    providers: [ForecastIOService, LocationService, PageDimensions, PositioningService]
 
-    public get message(): string {
-        if (this.counter > 0) {
-            return this.counter + " taps left";
-        } else {
-            return "Hoorraaay! \nYou are ready to start building!";
-        }
+})
+export class WeatherAppComponent {
+    public cityTemp: string;
+    public forecast: boolean;
+    public location: ILocationInfo;
+
+    constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
+
     }
-    
-    public onTap() {
-        this.counter--;
+
+    public getStatusBarHeight() {
+        let result = 0;
+        let resourceId = android.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > '0') {
+            result = android.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+    ngAfterViewInit(): void {
+        SwissArmyKnife.actionBarSetStatusBarStyle(1);
+        SwissArmyKnife.setAndroidNavBarColor('#644749');
+        SwissArmyKnife.setAndroidStatusBarColor('#8ba192');
     }
 }

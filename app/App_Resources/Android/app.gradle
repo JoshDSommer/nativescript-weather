@@ -5,12 +5,12 @@
 //	compile 'com.android.support:recyclerview-v7:+'
 //}
 
-android {  
-  defaultConfig {  
+android {
+  defaultConfig {
     generatedDensities = []
-    applicationId = "__PACKAGE__"  
-  }  
-  aaptOptions {  
-    additionalParameters "--no-version-vectors"  
-  }  
-} 
+    applicationId = "org.joshdsommer.weathercards"
+  }
+  aaptOptions {
+    additionalParameters "--no-version-vectors"
+  }
+}

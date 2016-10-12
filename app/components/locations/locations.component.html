@@ -1,0 +1,18 @@
+<ActionBar title="Set Your Location" class="action-bar">
+	<!-- <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" tap="onNavBtnTap"></NavigationButton> -->
+</ActionBar>
+<StackLayout>
+	<Label text="Search for your postal code and country" textWrap="true" class="header"></Label>
+
+	<TextField #postalCode hint="Search" class="postal-code" text=""></TextField>
+	<Button text="Lookup" class="night lookupButton" (tap)="lookUpPostalCode()"></Button>
+
+	<StackLayout [visibility]="isResultsVisible ? 'visible' : 'collapse'">
+		<Label #result [text]="location?.name" class="result" textWrap="true"></Label>
+		<GridLayout #celsiusWrap rows="*" columns="75,*" class="celsius-wrap">
+			<Label row="0" col="0" text="Celsius" class="celsius" textWrap="true"></Label>
+			<Switch row="0" col="1" #celsiusSwitch horizontalAlignment="right"></Switch>
+		</GridLayout>
+		<Button text="Save this location?" class="night lookupButton save-button" (tap)="saveLocation()"></Button>
+	</StackLayout>
+</StackLayout>
