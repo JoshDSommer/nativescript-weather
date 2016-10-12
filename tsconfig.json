@@ -6,7 +6,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "noEmitHelpers": true,
-        "noEmitOnError": false
+        "noEmitOnError": true
     },
     "exclude": [
         "node_modules",

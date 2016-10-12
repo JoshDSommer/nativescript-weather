@@ -1,7 +1,6 @@
-﻿
-.wi {
-  font-family: 'Weather Icons', weathericons-regular-webfont;
-    font-size:100;
+﻿.wi {
+	font-family: 'Weather Icons', weathericons-regular-webfont;
+	font-size:100;
 }
 
 .fa{
@@ -18,6 +17,7 @@ Page, .action-bar, #container-wrapper{
 }
 .action-bar, .nav-bar{
 	color:#fff;
+	font-family: 'Roboto Medium';
 }
 
 .morning{
@@ -52,11 +52,12 @@ Page, .action-bar, #container-wrapper{
 	margin:10 0 25 0;;
 	color: #fff;
 	text-align:center;
-
+	font-family: 'Roboto Medium';
 }
 
 .error-text{
 	color:#fff;
 	font-size: 25;
 	text-align:center;
+	font-family: 'Roboto Medium';
 }

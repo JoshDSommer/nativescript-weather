@@ -1,0 +1,13 @@
+<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card [width]="width" [height]="height * 3"
+	[left]="left" [top]="top">
+	<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
+	<StackLayout top="20" left="200" [height]="height * 2">
+		<Label class="time" [text]="forecast?.day"></Label>
+		<Label [text]="forecast?.temperature + '\u00B0'" class="degrees" textWrap="true"></Label>
+		<StackLayout #forecastInfo [height]="height * 2" class="forecast">
+			<Label [text]="forecast?.summary" class="info-text summary" textWrap="true"></Label>
+			<Label [text]="'Wind: ' + forecast?.windBearing + ' ' + forecast?.windSpeed + ' mph'" class="info-text wind" textWrap="true"></Label>
+			<Label [text]="'Humidity: ' + forecast?.humidity + '%'" class="info-text humidity" textWrap="true"></Label>
+		</StackLayout>
+	</StackLayout>
+</AbsoluteLayout>

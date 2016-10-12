@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-import {Observable} from 'rxjs/observable';
+import { SwissArmyKnife } from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
+import { Observable } from 'rxjs/observable';
 import * as applicationSettings from 'application-settings';
 
 export interface ILocationInfo {
@@ -32,11 +32,7 @@ export class LocationService {
 		if (locationJSON == null) {
 			return null;
 		}
-
 		let location: ILocationInfo = JSON.parse(locationJSON);
-		if (location == null) {
-			return null;
-		}
 		return location;
 	}
 
@@ -50,7 +46,7 @@ export class LocationService {
 
 	getCityName(): Observable<string> {
 		if (this.current.lat == null) {
-			this.getLogLat().then();
+			// this.getLogLat().then();
 		}
 		let googleApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.current.lat},${this.current.lng}&sensor=true`;
 		return this.http.get(googleApiUrl).map(this.extractCityName);

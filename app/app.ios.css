@@ -13,6 +13,7 @@
 
 Page, .action-bar, #container-wrapper{
     background-color:#8ba892;
+	font-family: 'SF UI Text Medium';
 }
 .action-bar, .nav-bar{
 	color:#fff;

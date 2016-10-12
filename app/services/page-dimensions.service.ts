@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-import {Observable} from 'rxjs/observable';
-import * as Rx from 'rxjs/Rx';
+import {Observable} from 'rxjs/Rx';
 
 export interface IDimensions {
 	cardSize: number;
@@ -20,12 +19,12 @@ export class PageDimensions {
 	constructor() { }
 
 	//right now this is probably overkill
-	getDimensions(): Rx.Observable<IDimensions> {
+	getDimensions(): Observable<IDimensions> {
 		const portraitHeight = SwissArmyKnife.getScreenHeight().portrait - 80;
 		const cardRowSize = portraitHeight / 5;
 		const cardSize = cardRowSize * 4 - 16;
 
-		return Rx.Observable.of<IDimensions>({
+		return Observable.of<IDimensions>({
 			cardRowSize: cardRowSize,
 			cardSize: cardSize,
 			pageHeight: portraitHeight,

@@ -1,56 +1,64 @@
-	.location-card{
-			border-top-right-radius:15;
-			border-top-left-radius:15;
-			padding:5px 15px;
+.location-card{
+	border-top-right-radius:15;
+	border-top-left-radius:15;
+	padding:5px 15px;
 
-		}
-		.location-card Label, .location-card TextField{
-			/*background-color: #644749;*/
-		}
-		.header{
-			text-transform:uppercase;
-			padding-top:5;
-			color:#644749;
-			font-size:18;
-			font-weight: bold;
-			text-align: center;
+}
+.location-card Label, .location-card TextField{
+	/*background-color: #644749;*/
+}
+.header{
+	text-transform:uppercase;
+	padding-top:5;
+	padding: 5 25;
+	color:#644749;
+	font-size:18;
+	font-family: 'Roboto Medium';
+	font-weight: bold;
+	text-align: center;
 
-		}
-		.lookupButton{
-			border-radius:15;
-			margin:5 15%;
-			width:70%;
-			text-align:center;
-			color:#fff;
-			opacity:0.8;
-			font-weight:bold;
-			text-transform:uppercase;
-			/*letter-spacing:.5;*/
-			padding:5 25 5;
-		}
-		.lookupButton:highlighted{
-			opacity:0.4;
+}
+.lookupButton{
+	border-radius:15;
+	margin:5 15%;
+	width:70%;
+	text-align:center;
+	color:#fff;
+	opacity:0.8;
+	font-weight:bold;
+	text-transform:uppercase;
+	/*letter-spacing:.5;*/
+	font-family: 'Roboto Medium';
+	padding:5 25 5;
+}
+.lookupButton:highlighted{
+	opacity:0.4;
 
-		}
-		.result{
-			text-transform:uppercase;
-			font-size:20;
-			text-align:center;
-		}
-		.celsius-wrap{
-			margin:8 15%;
-			width:70%;
-			padding:0 5;
-			height:25;
-		}
-		.celsius{
-			color:#644749;
-			text-align:left;
-			font-size:20;
-		}
-		.postal-code{
-			margin:10 0;
-			color:#fff;
-			text-align:center;
-			font-size:20;
-		}
+}
+.result{
+	text-transform:uppercase;
+	font-size:20;
+	text-align:center;
+}
+.celsius-wrap{
+	margin:8 15%;
+	width:70%;
+	padding:0 5;
+	height:25;
+}
+.celsius{
+	color:#644749;
+	text-align:left;
+	font-size:20;
+	font-family: 'Roboto Medium';
+
+}
+.postal-code{
+	margin:10 0;
+	color:#fff;
+	text-align:center;
+	font-size:20;
+	font-family: 'Roboto Medium';
+	/*border-width:1;
+	border-color:#fff;*/
+}

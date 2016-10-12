@@ -1,18 +1,18 @@
 import { Component, ViewEncapsulation, OnInit, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
-import {IForecastCardInfo} from '../../services/forecast.io.services';
-import {Label} from 'ui/label';
-import {StackLayout} from 'ui/layouts/stack-layout';
-import * as gestures from 'ui/gestures';
+import { SwissArmyKnife } from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
+import { TNSFontIconService, TNSFontIconPipe } from 'nativescript-ng2-fonticon';
+import { IForecastCardInfo } from '../../services/forecast.io.services';
+import { Label } from 'ui/label';
+import { StackLayout } from 'ui/layouts/stack-layout';
 import * as app from 'application';
-import {PositioningService, cardNames } from '../../services/positioning.service';
+import { PositioningService, cardNames } from '../../services/positioning.service';
 import { Subject } from 'rxjs/Subject';
-import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {Color} from 'color';
-import {AnimationCurve, Orientation} from 'ui/enums';
+import { AbsoluteLayout } from 'ui/layouts/absolute-layout';
+import { Color } from 'color';
+import { AnimationCurve, Orientation } from 'ui/enums';
 import * as Platform from 'platform';
-const themes = require('nativescript-themes');
+
+var themes = require('nativescript-themes');
 
 export enum CardState {
 	hidden = 0,
@@ -27,21 +27,7 @@ export interface IForecastCardInfo extends AbsoluteLayout {
 
 @Component({
 	selector: 'forecast-card',
-	template: `
-		<AbsoluteLayout [class]="forecast?.timeOfDay + ' card'" (touch)="cardTapEvent($event)" #card [width]="width" [height]="height * 3" [left]="left" [top]="top"  >
-			<Label top="11" #forecastIcon left="40" [class]="'wi ' +  forecast?.timeOfDay + '-icon'" [text]="forecast?.icon | fonticon"></Label>
-			<StackLayout top="20" left="200" [height]="height * 2" >
-				<Label class="time" [text]="forecast?.day"></Label>
-				<Label [text]="forecast?.temperature + '\u00B0'" class="degrees" textWrap="true"></Label>
-				<StackLayout #forecastInfo [height]="height * 2" class="forecast">
-					<Label [text]="forecast?.summary" class="info-text summary"  textWrap="true"></Label>
-					<Label [text]="'Wind: ' + forecast?.windBearing + ' ' + forecast?.windSpeed + ' mph'" class="info-text wind" textWrap="true"></Label>
-					<Label [text]="'Humidity: ' + forecast?.humidity + '%'" class="info-text humidity" textWrap="true"></Label>
-				</StackLayout>
-			</StackLayout>
-		</AbsoluteLayout>
-	`,
-	pipes: [TNSFontIconPipe]
+	templateUrl: './components/forecast-card/forecast-card.component.html',
 })
 export class ForecastCardComponent implements OnInit, AfterViewInit {
 	@Input('height') public height: number;
@@ -140,10 +126,11 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	cardTapEvent(e: gestures.TouchGestureEventData) {
+	cardTapEvent(e: any) {
 		if (e && e.action === 'down' && this.rippling === false && !this.selected) {
+			console.log('TAPPPED');
 			this.selectCard();
-			this.createRipple(<AbsoluteLayout>e.object, e.getX(), e.getY());
+			// this.createRipple(<AbsoluteLayout>e.object, e.getX(), e.getY());
 		}
 	}
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {StackLayout} from 'ui/layouts/stack-layout';
-import { Subject } from 'rxjs/Subject';
-import {AnimationCurve, Orientation} from 'ui/enums';
-import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {IForecastCardInfo} from '../components/forecast-card/forecast-card.component';
+import { StackLayout } from 'ui/layouts/stack-layout';
+import { BehaviorSubject } from 'rxjs/Rx';
+import { AnimationCurve, Orientation } from 'ui/enums';
+import { AbsoluteLayout } from 'ui/layouts/absolute-layout';
+import { IForecastCardInfo } from '../components/forecast-card/forecast-card.component';
 
 export enum cardNames {
 	morning,
@@ -30,30 +30,31 @@ export class PositioningService {
 	public evening: ISelectedCard;
 	public night: ISelectedCard;
 	public movementDistance: number;
-	public selectedCard: Subject<ISelectedCard>;
+	public selectedCard: BehaviorSubject<ISelectedCard> = new BehaviorSubject<ISelectedCard>(null);
 	public previousCard: ISelectedCard;
 
 	constructor() {
-
-		this.selectedCard = Subject.create();
 		this.selectedCard.subscribe((layout: ISelectedCard) => {
-			this.morning.setSelected(false);
-			this.day.setSelected(false);
-			this.evening.setSelected(false);
-			this.night.setSelected(false);
+			console.log('select card', layout);
+			if (layout) {
+				this.morning.setSelected(false);
+				this.day.setSelected(false);
+				this.evening.setSelected(false);
+				this.night.setSelected(false);
 
-			this.hideForecastsExcept(layout.cardName);
+				this.hideForecastsExcept(layout.cardName);
 
-			layout.card.animate({
-				translate: { x: 0, y: 0 },
-				duration: 300,
-				curve: AnimationCurve.linear,
-			});
+				layout.card.animate({
+					translate: { x: 0, y: 0 },
+					duration: 300,
+					curve: AnimationCurve.linear,
+				});
 
-			this.handleCardForecastPosistion(layout);
-			this.moveWeatherIcon(layout);
+				this.handleCardForecastPosistion(layout);
+				this.moveWeatherIcon(layout);
 
-			this.previousCard = layout;
+				this.previousCard = layout;
+			}
 		});
 	}
 

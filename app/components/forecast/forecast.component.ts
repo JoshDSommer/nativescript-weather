@@ -1,33 +1,37 @@
 
+<<<<<<< HEAD
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit  } from "@angular/core";
+=======
+import { Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
+>>>>>>> 2
 import * as app from 'application';
 import * as Platform from 'platform';
-import {Router} from '@angular/router';
-import {TNSFontIconService, TNSFontIconPipe} from 'nativescript-ng2-fonticon';
-import {ForecastCardComponent, } from '../forecast-card/forecast-card.component';
-import {PageDimensions, IDimensions} from '../../services/page-dimensions.service';
-import {IForecastCardInfo, ForecastIOService, IForecast } from '../../services/forecast.io.services';
-import {ILocationInfo, LocationService } from '../../services/location.service';
-import {PositioningService, ISelectedCard, cardNames } from '../../services/positioning.service';
-import * as gestures from 'ui/gestures';
-import {StackLayout} from 'ui/layouts/stack-layout';
-import {Observable} from 'rxjs/observable';
-import {Subscription} from 'rxjs/subscription';
-import {topmost} from 'ui/frame';
-import {Page} from 'ui/page';
-import {Label} from 'ui/label';
-import {Color} from 'color';
-import {PullToRefresh} from 'nativescript-pulltorefresh';
+import { Router } from '@angular/router';
+import { TNSFontIconService, TNSFontIconPipe } from 'nativescript-ng2-fonticon';
+import { ForecastCardComponent, } from '../forecast-card/forecast-card.component';
+import { PageDimensions, IDimensions, IForecastCardInfo, ForecastIOService, IForecast, ILocationInfo, LocationService, PositioningService, ISelectedCard, cardNames } from '../../services';
+import { StackLayout } from 'ui/layouts/stack-layout';
+import { Observable, Subscription } from 'rxjs/Rx';
+import { topmost } from 'ui/frame';
+import { Page } from 'ui/page';
+import { Label } from 'ui/label';
+import { Color } from 'color';
+import { PullToRefresh } from 'nativescript-pulltorefresh';
 import { registerElement, ViewClass } from 'nativescript-angular/element-registry';
+<<<<<<< HEAD
 import {SwissArmyKnife} from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
+=======
+import { SwissArmyKnife } from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
 
+>>>>>>> 2
+registerElement('PullToRefresh', () => require('nativescript-pulltorefresh').PullToRefresh);
 declare const android: any;
 
 
 
 @Component({
 	selector: 'forecast-component',
+<<<<<<< HEAD
 	template: `
 	<GridLayout>
 		<ActionBar title="" class="action-bar">
@@ -57,6 +61,9 @@ declare const android: any;
 	directives: [ForecastCardComponent],
 	providers: [PageDimensions, PositioningService],
 	pipes: [TNSFontIconPipe],
+=======
+	templateUrl: './components/forecast/forecast.component.html',
+>>>>>>> 2
 	styleUrls: ['theme-natural.css', 'app.css'],
 })
 export class ForecastComponent implements AfterViewInit, OnInit {
@@ -74,7 +81,7 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	private placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
 	private subsciption: Subscription;
 
-	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService) {
+	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService, private fonticon: TNSFontIconService, ) {
 		this.isErrorVisible = false;
 		this.isConnectingVisible = true;
 		this.forecast = {
@@ -91,7 +98,6 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 			this.positioning.movementDistance = data.cardRowSize;
 		});
 
-		this.refreshForecast();
 
 
 	}
@@ -112,20 +118,58 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	}
 
 	refreshForecast(pullRefresh?: any): void {
-		SwissArmyKnife.actionBarHideBackButton();
+		//SwissArmyKnife.actionBarHideBackButton();
 
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
-			setTimeout(() => this.router.navigate(['/location']), 1000)
-		}
-		this.isConnectingVisible = true;
-		this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
-			this.isErrorVisible = false;
-			this.isConnectingVisible = false;
-			setTimeout(() => {
-				if ((<any>this.morning).selected === false) {
-					(<any>this.morning).selectCard();
+			this.router.navigate(['/location']);
+		} else {
+			// this.isConnectingVisible = true;
+			// this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+			// 	this.isErrorVisible = false;
+			// 	this.isConnectingVisible = false;
+			// 	// setTimeout(() => {
+			// 	if ((<any>this.morning).selected === false) {
+			// 		(<any>this.morning).selectCard();
+			// 	}
+			// 	// }, 100);
+			// 	this.forecast.location = value.location;
+			// 	this.forecast.temperature = value.temperature;
+			// 	this.cityTemp = `${currentLocation.name} - ${this.forecast.temperature}\u00B0`;
+			// 	this.forecast.day = value.day;
+			// 	this.forecast.evening = value.evening;
+			// 	this.forecast.morning = value.morning;
+			// 	this.forecast.night = value.night;
+			// 	this.ref.detectChanges();
+			// 	if (pullRefresh != null) {
+			// 		pullRefresh.refreshing = false;
+			// 	}
+			// }, (error) => {
+			// 	console.log('Error !!!!');
+			// 	this.isErrorVisible = true;
+			// 	this.cityTemp = 'Set your location';
+			// });
+			// // }
+			SwissArmyKnife.actionBarHideBackButton();
+
+			this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+				setTimeout(() => {
+					if ((<any>this.morning).selected === false) {
+						(<any>this.morning).selectCard();
+					}
+				}, 100);
+				this.forecast.location = value.location;
+				this.forecast.temperature = value.temperature;
+				this.cityTemp = `${currentLocation.name} - ${this.forecast.temperature}\u00B0`;
+				this.forecast.day = value.day;
+				this.forecast.evening = value.evening;
+				this.forecast.morning = value.morning;
+				this.forecast.night = value.night;
+				this.ref.detectChanges();
+				if (pullRefresh != null) {
+					pullRefresh.refreshing = false;
 				}
+<<<<<<< HEAD
 			}, 100);
 			this.forecast.location = value.location;
 			this.forecast.temperature = value.temperature;
@@ -143,9 +187,13 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 			this.isErrorVisible = true;
 			this.cityTemp = 'Set your location';
 		});
+=======
+			});
+		}
+>>>>>>> 2
 	}
 
-	refresh(e: gestures.TouchGestureEventData): void {
+	refresh(e: any): void {
 		if (e.action === 'up') {
 			(<Label>e.object).opacity = 1;
 			this.refreshForecast();
@@ -155,20 +203,21 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		}
 	}
 
-	gotoLocations(e: gestures.TouchGestureEventData): void {
-		if (e.action === 'up') {
-			(<Label>e.object).opacity = 1;
-			this.router.navigate(['/location']);
+	// gotoLocations(e: any): void {
+	// 	if (e.action === 'up') {
+	// 		(<Label>e.object).opacity = 1;
+	// 		this.router.navigate(['/location']);
 
-		} else if (e.action === 'down') {
-			(<Label>e.object).opacity = 0.5;
-		}
-	}
+	// 	} else if (e.action === 'down') {
+	// 		(<Label>e.object).opacity = 0.5;
+	// 	}
+	// }
 	ngOnInit() {
 		this.isErrorVisible = false;
 		this.isConnectingVisible = true;
 	}
 	ngAfterViewInit(): void {
+		this.refreshForecast();
 	}
 
 }

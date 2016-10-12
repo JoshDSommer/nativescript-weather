@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef  } from "@angular/core";
 import {NgIf } from '@angular/common';
 import {RouterConfig} from "@angular/router";
@@ -12,10 +13,16 @@ import * as app from 'application';
 import {Color} from 'color';
 import * as Platform from 'platform';
 
+=======
+import { Component } from "@angular/core";
+import { ForecastIOService, LocationService, ILocationInfo, PageDimensions, PositioningService } from './services';
+import { SwissArmyKnife } from 'nativescript-swiss-army-knife';
+import { TNSFontIconService } from 'nativescript-ng2-fonticon';
+>>>>>>> 2
 declare const android: any;
 
-
 @Component({
+<<<<<<< HEAD
 	selector: 'weather-app',
 	template: `
 		<page-router-outlet></page-router-outlet>
@@ -29,32 +36,37 @@ declare const android: any;
 	],
 
 	providers: [ForecastIOService, LocationService]
+=======
+    selector: "weather-app",
+    templateUrl: "app.component.html",
+    providers: [ForecastIOService, LocationService, PageDimensions, PositioningService]
+
+>>>>>>> 2
 })
 export class WeatherAppComponent {
-	public cityTemp: string;
-	public forecast: boolean;
-	public location: ILocationInfo;
+    public cityTemp: string;
+    public forecast: boolean;
+    public location: ILocationInfo;
 
-	@ViewChild('wrapper') stackLayout: ElementRef;
+    constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
 
-	constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
+    }
 
-	}
-
-	public getStatusBarHeight() {
-		let result = 0;
-		let resourceId = android.getResources().getIdentifier("status_bar_height", "dimen", "android");
-		if (resourceId > '0') {
-			result = android.getResources().getDimensionPixelSize(resourceId);
-		}
-		return result;
-	}
-	ngAfterViewInit(): void {
-		SwissArmyKnife.actionBarSetStatusBarStyle(1);
-		SwissArmyKnife.setAndroidNavBarColor('#644749');
-		SwissArmyKnife.setAndroidStatusBarColor('#8ba192');
-	}
+    public getStatusBarHeight() {
+        let result = 0;
+        let resourceId = android.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > '0') {
+            result = android.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+    ngAfterViewInit(): void {
+        SwissArmyKnife.actionBarSetStatusBarStyle(1);
+        SwissArmyKnife.setAndroidNavBarColor('#644749');
+        SwissArmyKnife.setAndroidStatusBarColor('#8ba192');
+    }
 }
+<<<<<<< HEAD
 
 var routes: RouterConfig = [
 	{ path: "", component: ForecastComponent },
@@ -65,3 +77,5 @@ var routes: RouterConfig = [
 export var APP_ROUTES = [
 	nsProvideRouter(routes, { enableTracing: false })
 ]
+=======
+>>>>>>> 2
