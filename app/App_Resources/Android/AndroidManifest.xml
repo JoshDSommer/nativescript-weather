@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="__PACKAGE__"
-	android:versionCode="12"
-	android:versionName="2.0.0">
+	android:versionCode="14"
+	android:versionName="2.0.2">
 
 	<supports-screens
 		android:smallScreens="true"
@@ -34,7 +34,9 @@
 			<meta-data android:name="SET_THEME_ON_LAUNCH" android:resource="@style/AppTheme" />
 
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+				<action android:name="android.intent.action.MAIN"
+							android:screenOrientation="portrait"
+				 />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
