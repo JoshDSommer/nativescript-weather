@@ -1,22 +1,27 @@
 
-import { Component } from "@angular/core";
-import { ForecastIOService, LocationService, ILocationInfo, PageDimensions, PositioningService } from './services';
+import { Component, OnDestroy } from "@angular/core";
+import { ForecastIOService, LocationService, ILocationInfo, PageDimensions, PositioningService, ConnectivityService, ConnectionType } from './services';
 import { SwissArmyKnife } from 'nativescript-swiss-army-knife';
 import { TNSFontIconService } from 'nativescript-ng2-fonticon';
+import { NativeScriptRouterModule, RouterExtensions } from 'nativescript-angular/router'
+
+
+import { connectionType, getConnectionType, startMonitoring, stopMonitoring } from 'connectivity'
+
 declare const android: any;
 
 @Component({
 
     selector: "weather-app",
     templateUrl: "app.component.html",
-    providers: [ForecastIOService, LocationService, PageDimensions, PositioningService]
+    providers: [ForecastIOService, LocationService, PageDimensions, PositioningService, ConnectivityService]
 })
-export class WeatherAppComponent {
+export class WeatherAppComponent implements OnDestroy {
     public cityTemp: string;
     public forecast: boolean;
     public location: ILocationInfo;
 
-    constructor(private forecastIOService: ForecastIOService, private locationService: LocationService) {
+    constructor(private router: RouterExtensions, private forecastIOService: ForecastIOService, private locationService: LocationService, private connectivityService: ConnectivityService) {
 
     }
 
@@ -32,5 +37,17 @@ export class WeatherAppComponent {
         SwissArmyKnife.actionBarSetStatusBarStyle(1);
         SwissArmyKnife.setAndroidNavBarColor('#644749');
         SwissArmyKnife.setAndroidStatusBarColor('#8ba192');
+
+        this.connectivityService.startMonitoring((newConnectionType: ConnectionType) => {
+            if (newConnectionType === ConnectionType.none) {
+                this.router.navigate(['/network'], { clearHistory: true, transition: 'slideTop' });
+            } else {
+                this.router.navigate(['/location'], { clearHistory: true, transition: 'slideTop' });
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.connectivityService.stopMonitoring();
     }
 }

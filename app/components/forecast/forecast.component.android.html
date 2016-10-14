@@ -11,7 +11,6 @@
 	</ActionBar>
 	<PullToRefresh (refresh)="refreshPage($event)">
 		<StackLayout>
-			<!--<StackLayout [visibility]="!isErrorVisible && !isConnectingVisible ? 'visible' : 'collapse'">-->
 			<AbsoluteLayout id="slider-container">
 				<forecast-card [state]=0 [forecast]="forecast.morning" [height]="dimensions.cardSize" [top]="dimensions.morningOffset" #morning></forecast-card>
 				<forecast-card [state]=0 [forecast]="forecast.day" [height]="dimensions.cardSize" [top]="dimensions.dayOffset" #day></forecast-card>
@@ -20,8 +19,4 @@
 			</AbsoluteLayout>
 		</StackLayout>
 	</PullToRefresh>
-	<!--<StackLayout [visibility]="isConnectingVisible ? 'visible' : 'collapse'">
-		<Label class="error-text" text="Connecting..." textWrap="true"></Label>
-	</StackLayout>-->
-
 </GridLayout>
