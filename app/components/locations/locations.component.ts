@@ -1,19 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { Location as ngLocation } from '@angular/common';
 import { SwissArmyKnife, IScreenHeight } from 'nativescript-swiss-army-knife/nativescript-swiss-army-knife';
-import { ILocationInfo, LocationService } from '../../services/location.service';
+import { ILocationInfo, LocationService, ConnectivityService } from '../../services';
 import { ActivityIndicator } from 'ui/activity-indicator';
 import { StackLayout } from 'ui/layouts/stack-layout';
+import { RouterExtensions } from 'nativescript-angular/router'
 import { TNSFontIconService, TNSFontIconPipe } from 'nativescript-ng2-fonticon';
 import { AnimationCurve, Orientation, KeyboardType } from 'ui/enums';
 import { Label } from 'ui/label';
-import { Router } from '@angular/router';
 import { topmost } from 'ui/frame';
 import { Page } from 'ui/page';
 import { View } from 'ui/core/view';
 import { TextField } from 'ui/text-field';
-import { Observable } from 'rxjs/observable';
-import { Subscription } from 'rxjs/subscription';
+import { Observable, Subscription } from 'rxjs/Rx';
 import * as app from 'application';
 import { Color } from 'color';
 import * as Platform from 'platform';
@@ -38,7 +36,11 @@ export class LocationsComponent {
 	public leftOffset: number;
 	private pageDimensions: IScreenHeight;
 
-	constructor(private router: Router, private locationService: LocationService, private ref: ChangeDetectorRef, private ngLocation: ngLocation) {
+	constructor(private router: RouterExtensions,
+		private locationService: LocationService,
+		private ref: ChangeDetectorRef,
+		private conntectivityService: ConnectivityService) {
+
 		this.pageDimensions = SwissArmyKnife.getScreenHeight();
 		this.leftOffset = SwissArmyKnife.getScreenHeight().landscape / 2;
 		this.isResultsVisible = false;
@@ -86,8 +88,7 @@ export class LocationsComponent {
 		applicationSettings.setBoolean('celsius', this.celsiusSwitch.nativeElement.checked);
 		this.isResultsVisible = false;
 		this.ref.detectChanges();
-		this.router.navigate(['']);
-		//this.ngLocation.back();
+		this.router.navigate([''], { transition: 'slideTop' });
 	}
 
 
@@ -107,25 +108,6 @@ export class LocationsComponent {
 
 
 	ngAfterViewInit() {
-		// this.celsiusSwitch.nativeElement.checked = false;
-
-		// let postalCodeTxt = (<TextField>this.postalCodeTxt.nativeElement);
-
-
-		// if (app.android && postalCodeTxt) {
-		// 	let white = new Color('#fff');
-		// 	postalCodeTxt.android.setHintTextColor(white.android);
-		// }
-
-		// this.location = this.locationService.getStoredLocations();
-
-		// if (this.location != null) {
-		// 	this.displayLocation(this.location);
-		// }
-
-		// this.isResultsVisible = false;
-		// this.ref.detectChanges();
-
 		this.isResultsVisible = false;
 		this.ref.detectChanges();
 

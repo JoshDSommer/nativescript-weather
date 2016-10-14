@@ -1,11 +1,11 @@
 
-import { Component, ViewChild, ViewEncapsulation, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
+import { Component, ViewChild, ViewEncapsulation, OnChanges, ElementRef, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
 import * as app from 'application';
 import * as Platform from 'platform';
-import { Router } from '@angular/router';
+import { RouterExtensions } from 'nativescript-angular/router'
 import { TNSFontIconService, TNSFontIconPipe } from 'nativescript-ng2-fonticon';
 import { ForecastCardComponent, } from '../forecast-card/forecast-card.component';
-import { PageDimensions, IDimensions, IForecastCardInfo, ForecastIOService, IForecast, ILocationInfo, LocationService, PositioningService, ISelectedCard, cardNames } from '../../services';
+import { PageDimensions, IDimensions, IForecastCardInfo, ConnectivityService, ForecastIOService, IForecast, ILocationInfo, LocationService, PositioningService, ISelectedCard, cardNames } from '../../services';
 import { StackLayout } from 'ui/layouts/stack-layout';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { topmost } from 'ui/frame';
@@ -27,7 +27,7 @@ declare const android: any;
 	templateUrl: './components/forecast/forecast.component.html',
 	styleUrls: ['theme-natural.css', 'app.css'],
 })
-export class ForecastComponent implements AfterViewInit, OnInit {
+export class ForecastComponent implements OnChanges, OnInit {
 	@ViewChild('morning') public morning: ElementRef;
 	@ViewChild('day') public day: ElementRef;
 	@ViewChild('evening') public evening: ElementRef;
@@ -40,9 +40,16 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	public dimensions: IDimensions;
 	public forecastDate: number;
 	private placeholderInfo = { icon: '', temperature: 0, windSpeed: 0, windBearing: 0, summary: '', humidity: 0 };
-	private subsciption: Subscription;
 
-	constructor(private router: Router, private ref: ChangeDetectorRef, private pageDimensions: PageDimensions, private positioning: PositioningService, private forecastIOService: ForecastIOService, private locationService: LocationService, private fonticon: TNSFontIconService, ) {
+	constructor(private router: RouterExtensions,
+		private ref: ChangeDetectorRef,
+		private pageDimensions: PageDimensions,
+		private positioning: PositioningService,
+		private forecastIOService: ForecastIOService,
+		private locationService: LocationService,
+		private fonticon: TNSFontIconService,
+		private conntectivityService: ConnectivityService) {
+
 		this.isErrorVisible = false;
 		this.isConnectingVisible = true;
 		this.forecast = {
@@ -75,7 +82,6 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 	ngOnDestroy(): void {
 		this.isErrorVisible = false;
 		this.isConnectingVisible = true;
-		this.subsciption.unsubscribe();
 	}
 
 	refreshForecast(pullRefresh?: any): void {
@@ -83,7 +89,7 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
-			this.router.navigate(['/location']);
+			this.router.navigate(['/location'], { clearHistory: true, transition: 'slideTop' });
 		} else {
 			// this.isConnectingVisible = true;
 			// this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
@@ -113,7 +119,7 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 			// // }
 			SwissArmyKnife.actionBarHideBackButton();
 
-			this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
+			this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {
 				setTimeout(() => {
 					if ((<any>this.morning).selected === false) {
 						(<any>this.morning).selectCard();
@@ -145,21 +151,13 @@ export class ForecastComponent implements AfterViewInit, OnInit {
 		}
 	}
 
-	// gotoLocations(e: any): void {
-	// 	if (e.action === 'up') {
-	// 		(<Label>e.object).opacity = 1;
-	// 		this.router.navigate(['/location']);
-
-	// 	} else if (e.action === 'down') {
-	// 		(<Label>e.object).opacity = 0.5;
-	// 	}
-	// }
 	ngOnInit() {
 		this.isErrorVisible = false;
 		this.isConnectingVisible = true;
-	}
-	ngAfterViewInit(): void {
 		this.refreshForecast();
+	}
+	ngOnChanges(): void {
+		console.log('On Changes');
 	}
 
 }

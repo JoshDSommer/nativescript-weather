@@ -29,7 +29,7 @@
 	text-transform:uppercase;
 	/*letter-spacing:.5;*/
 	font-family: 'Roboto Medium';
-	padding:5 25 5;
+	padding:10 25 5;
 }
 .lookupButton:highlighted{
 	opacity:0.4;
@@ -59,6 +59,7 @@
 	text-align:center;
 	font-size:20;
 	font-family: 'Roboto Medium';
-	/*border-width:1;
-	border-color:#fff;*/
+	border-width:0.1;
+	border-color:#fff;
+	margin:0 30;
 }

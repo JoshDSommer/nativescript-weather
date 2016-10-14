@@ -130,7 +130,7 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 		if (e && e.action === 'down' && this.rippling === false && !this.selected) {
 			console.log('TAPPPED');
 			this.selectCard();
-			// this.createRipple(<AbsoluteLayout>e.object, e.getX(), e.getY());
+			this.createRipple(<AbsoluteLayout>e.object, e.getX(), e.getY());
 		}
 	}
 
