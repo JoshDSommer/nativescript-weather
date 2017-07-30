@@ -89,7 +89,7 @@ export class ForecastComponent implements OnChanges, OnInit {
 
 		let currentLocation = this.locationService.getStoredLocations();
 		if (currentLocation == null) {
-			this.router.navigate(['/location'], { clearHistory: true, transition: 'slideTop' });
+			this.router.navigate(['/location'], { clearHistory: true, transition: { name: 'slideTop' } });
 		} else {
 			// this.isConnectingVisible = true;
 			// this.subsciption = this.forecastIOService.getForecast(currentLocation.lat, currentLocation.lng).subscribe((value) => {

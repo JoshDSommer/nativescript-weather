@@ -64,26 +64,20 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 
 		console.log('DPI - ' + scale);
 
+		//AZ: Removing calls to themes because the plugin is broken.
+		/*
 		if (scale >= 600) {
-			themes.applyTheme('app.minWH600.css');
+			themes.applyTheme(themes.getAppliedTheme('app.minWH600.css'));
 		} else if (scale >= 400) {
-			themes.applyTheme('app.minWH480.css');
+			themes.applyTheme(themes.getAppliedTheme('app.minWH480.css'));
 		} else if (scale >= 320) {
-			themes.applyTheme('app.minWH320.css');
+			themes.applyTheme(themes.getAppliedTheme('app.minWH320.css'));
 		} else {
-			themes.applyTheme('app.minWHdefault.css');
+			themes.applyTheme(themes.getAppliedTheme('app.minWHdefault.css'));
 		}
+		*/
 
 		//	}
-	}
-
-	ngAfterViewInit() {
-		if (app.ios) {
-			let card: AbsoluteLayout = this.card.nativeElement;
-			// card.clipToBounds doesnt seem to work but calling the native elment does.
-			card.ios.clipsToBounds = true;
-		}
-
 
 		let icon = <Label>this.forecastIcon.nativeElement;
 		icon.translateY = this.downDistance;
@@ -100,6 +94,15 @@ export class ForecastCardComponent implements OnInit, AfterViewInit {
 			};
 			this.hideForecast();
 		}
+
+		if (app.ios) {
+			let card: AbsoluteLayout = this.card.nativeElement;
+			// card.clipToBounds doesnt seem to work but calling the native elment does.
+			card.ios.clipsToBounds = true;
+		}
+	}
+
+	ngAfterViewInit() {
 
 	}
 

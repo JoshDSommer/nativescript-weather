@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Observer } from 'rxjs/Rx';
 import { RouterExtensions } from 'nativescript-angular/router'
 
-import { connectionType, getConnectionType, startMonitoring, stopMonitoring } from 'connectivity'
+import { connectionType as ConnectionType, getConnectionType, startMonitoring, stopMonitoring } from 'connectivity'
 
 
-
+/*
 export enum ConnectionType {
 	mobile = connectionType.mobile,
 	wifi = connectionType.wifi,
 	none = connectionType.none,
 }
+*/
 
 @Injectable()
 export class ConnectivityService {
