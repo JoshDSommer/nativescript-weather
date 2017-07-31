@@ -88,7 +88,7 @@ export class LocationsComponent {
 		applicationSettings.setBoolean('celsius', this.celsiusSwitch.nativeElement.checked);
 		this.isResultsVisible = false;
 		this.ref.detectChanges();
-		this.router.navigate([''], { transition: 'slideTop' });
+		this.router.navigate([''], { transition: { name: 'slideTop' } });
 	}
 
 

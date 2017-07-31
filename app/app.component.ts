@@ -1,12 +1,14 @@
 
 import { Component, OnDestroy } from "@angular/core";
-import { ForecastIOService, LocationService, ILocationInfo, PageDimensions, PositioningService, ConnectivityService, ConnectionType } from './services';
+import { ForecastIOService, LocationService, ILocationInfo, PageDimensions, PositioningService, ConnectivityService } from './services';
 import { SwissArmyKnife } from 'nativescript-swiss-army-knife';
 import { TNSFontIconService } from 'nativescript-ng2-fonticon';
 import { NativeScriptRouterModule, RouterExtensions } from 'nativescript-angular/router'
 
 
-import { connectionType, getConnectionType, startMonitoring, stopMonitoring } from 'connectivity'
+import { connectionType as ConnectionType, getConnectionType, startMonitoring, stopMonitoring } from 'connectivity'
+import { NavigationOptions } from "nativescript-angular/router/ns-location-strategy";
+import { NavigationTransition } from "tns-core-modules/ui/frame";
 
 declare const android: any;
 
@@ -21,7 +23,12 @@ export class WeatherAppComponent implements OnDestroy {
     public forecast: boolean;
     public location: ILocationInfo;
 
-    constructor(private router: RouterExtensions, private forecastIOService: ForecastIOService, private locationService: LocationService, private connectivityService: ConnectivityService) {
+    constructor(
+        private router: RouterExtensions,
+        private forecastIOService: ForecastIOService,
+        private locationService: LocationService,
+        private connectivityService: ConnectivityService,
+        private fonticon: TNSFontIconService) {
 
     }
 
@@ -40,9 +47,9 @@ export class WeatherAppComponent implements OnDestroy {
 
         this.connectivityService.startMonitoring((newConnectionType: ConnectionType) => {
             if (newConnectionType === ConnectionType.none) {
-                this.router.navigate(['/network'], { clearHistory: true, transition: 'slideTop' });
+                this.router.navigate(['/network'], { clearHistory: true, transition: { name: 'slideTop' } });
             } else {
-                this.router.navigate(['/location'], { clearHistory: true, transition: 'slideTop' });
+                this.router.navigate(['/location'], { clearHistory: true, transition: { name: 'slideTop' } });
             }
         });
     }

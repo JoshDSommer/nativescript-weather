@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ConnectivityService, ConnectionType } from '../../services';
+import { ConnectivityService } from '../../services';
 import { NativeScriptRouterModule, RouterExtensions } from 'nativescript-angular/router'
 
 @Component({
